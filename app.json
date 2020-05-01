@@ -1,0 +1,17 @@
+{
+  "name": "TccProject",
+  "displayName": "TccProject",
+  "expo": {
+    "name": "TccProject",
+    "slug": "TccProject",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
