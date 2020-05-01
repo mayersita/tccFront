@@ -1,2 +1,0 @@
-# tccFront
-Tcc frontend project
