@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import { View } from 'react-native';
-import createRouter from './routes';
+// import createRouter from './routes';
+import Login from './pages/Login';
 
 // import { Container } from './styles';
 
@@ -16,7 +17,7 @@ const fetchFonts = () => {
 
 const App = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
-  const Routes = createRouter();
+  // const Routes = createRouter();
   if (!dataLoaded) {
     return (
       <AppLoading
@@ -25,7 +26,7 @@ const App = () => {
       />
     );
   }
-  return <Routes />;
+  return <Login />;
 };
 
 export default App;

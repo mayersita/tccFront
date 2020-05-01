@@ -9,6 +9,8 @@ import {
   PasswordInput,
   SubmitButton,
   ForgotPassLink,
+  ForgotPassText,
+  SignUpLinkText,
   SignUpLink,
 } from './styles';
 
@@ -31,11 +33,15 @@ const Login = () => (
           resizeMethod={'resize'}
         />
         <LoginInput placeholder="Login" />
-        <PasswordInput placeholder="Login" />
+        <PasswordInput placeholder="Password" />
         <SubmitButton>ENTRAR</SubmitButton>
-        <ForgotPassLink>Esqueci a senha</ForgotPassLink>
+        <ForgotPassLink>
+          <ForgotPassText>Esqueci a senha</ForgotPassText>
+        </ForgotPassLink>
       </LoginContainer>
-      <SignUpLink>Criar conta</SignUpLink>
+      <SignUpLink>
+        <SignUpLinkText>Criar conta</SignUpLinkText>
+      </SignUpLink>
     </Container>
   </>
 );
