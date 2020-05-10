@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import { View } from 'react-native';
-// import createRouter from './routes';
-import Login from './pages/Login';
-
-// import { Container } from './styles';
+import Routes from './routes';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -17,7 +14,7 @@ const fetchFonts = () => {
 
 const App = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
-  // const Routes = createRouter();
+  // const Routes = createNavigator();
   if (!dataLoaded) {
     return (
       <AppLoading
@@ -26,7 +23,7 @@ const App = () => {
       />
     );
   }
-  return <Login />;
+  return <Routes />;
 };
 
 export default App;

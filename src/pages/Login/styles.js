@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 100px 50px 20px 50px;
+  padding: 80px 50px 20px 50px;
 `;
 
 export const LoginContainer = styled.View`
@@ -13,11 +13,7 @@ export const LoginContainer = styled.View`
   align-items: center;
 `;
 
-export const LoginInput = styled(InputField)`
-  margin-bottom: 15px;
-`;
-
-export const PasswordInput = styled(InputField)`
+export const TextInput = styled(InputField)`
   margin-bottom: 15px;
 `;
 
