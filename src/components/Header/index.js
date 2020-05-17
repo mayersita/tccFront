@@ -8,15 +8,15 @@ const HeaderComponent = () => {
   return (
     <HeaderComp
       leftComponent={
-        <Profile>
-          <FontAwesome name="user-circle" size={30} color="white" />
-          <User>Olá Usuário</User>
-        </Profile>
-      }
-      rightComponent={
         <MenuArea>
           <MaterialIcons name="menu" size={25} color="white" />
         </MenuArea>
+      }
+      rightComponent={
+        <Profile>
+          <User>Olá Usuário</User>
+          <FontAwesome name="user-circle" size={30} color="white" />
+        </Profile>
       }
     />
   );

@@ -6,10 +6,7 @@ export const Container = styled.View`
 `;
 
 export const SubContainer = styled.View`
-  flex: 1;
   padding: 10px 5px 10px 5px;
-  flex-direction: row;
-  flex-wrap: wrap;
 `;
 
 export const TitleView = styled.View`
@@ -26,3 +23,9 @@ export const TitleText = styled.Text`
 `;
 
 export const List = styled.FlatList``;
+
+export const FloatingAddButton = styled.TouchableOpacity`
+  align-self: center;
+  position: absolute;
+  bottom: 0%;
+`;

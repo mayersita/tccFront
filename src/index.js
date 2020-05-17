@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import './config/ReactotronConfig';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import { View } from 'react-native';
-import Routes from './routes';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -12,7 +14,7 @@ const fetchFonts = () => {
   });
 };
 
-const App = () => {
+const Index = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   // const Routes = createNavigator();
   if (!dataLoaded) {
@@ -23,7 +25,15 @@ const App = () => {
       />
     );
   }
-  return <Routes />;
+  return (
+    <>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </>
+  );
 };
 
-export default App;
+export default Index;

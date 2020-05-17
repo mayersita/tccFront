@@ -1,8 +1,17 @@
 import React from 'react';
 
 import { View, StatusBar } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HeaderComponent from '../../components/Header';
-import { Container, SubContainer, TitleView, TitleText, List } from './styles';
+import StoryComponent from '../../components/StoryComponent';
+import {
+  Container,
+  SubContainer,
+  TitleView,
+  TitleText,
+  List,
+  FloatingAddButton,
+} from './styles';
 
 const Home = () => {
   const myStories = [
@@ -44,8 +53,15 @@ const Home = () => {
         <TitleView>
           <TitleText>Suas histórias</TitleText>
         </TitleView>
-        <List />
       </SubContainer>
+      <List
+        data={myStories}
+        keyExtractor={(item) => item.title}
+        renderItem={({ item }) => <StoryComponent story={item} />}
+      />
+      <FloatingAddButton>
+        <MaterialCommunityIcons name="plus-circle" size={60} color="#08AE9E" />
+      </FloatingAddButton>
     </Container>
   );
 };
