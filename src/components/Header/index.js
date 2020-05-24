@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { toggleDrawer } from '../../services/navigation';
 
 import { HeaderComp, Profile, User, MenuArea } from './styles';
 
@@ -8,7 +9,7 @@ const HeaderComponent = () => {
   return (
     <HeaderComp
       leftComponent={
-        <MenuArea>
+        <MenuArea onPress={() => toggleDrawer()}>
           <MaterialIcons name="menu" size={25} color="white" />
         </MenuArea>
       }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import { navigate } from '../../services/navigation';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import {
@@ -28,7 +29,7 @@ const StoryComponent = ({ story }) => {
           <Description>{story.preview}</Description>
         </Line>
         <Line>
-          <TextLink>
+          <TextLink onPress={() => navigate('MyStory')}>
             <TextSeeMore>Ver mais</TextSeeMore>
           </TextLink>
           <TextLink>

@@ -1,9 +1,9 @@
 import React from 'react';
-import createNavigator from './routes';
+import Router from './routes';
 import { setNavigator } from './services/navigation';
 
 const App = () => {
-  const Router = createNavigator();
+  // const Router = createNavigator();
   return <Router ref={setNavigator} />;
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dimensions, Image } from 'react-native';
+import { Dimensions, Image, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import {
@@ -38,6 +38,7 @@ const Login = ({ navigation }) => {
         }}
       />
       <Container>
+        <StatusBar barStyle="light-content" backgroundColor="#651296" />
         <LoginContainer>
           <Image
             source={require('../../assets/logo.png')}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './config/ReactotronConfig';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
+import App from './App';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
@@ -25,15 +26,7 @@ const Index = () => {
       />
     );
   }
-  return (
-    <>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <App />
-        </PersistGate>
-      </Provider>
-    </>
-  );
+  return <App />;
 };
 
 export default Index;
