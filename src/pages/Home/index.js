@@ -4,6 +4,7 @@ import { View, StatusBar } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HeaderComponent from '../../components/Header';
 import StoryComponent from '../../components/StoryComponent';
+import { navigate } from '../../services/navigation';
 import {
   Container,
   SubContainer,
@@ -59,7 +60,11 @@ const Home = () => {
         keyExtractor={(item) => item.title}
         renderItem={({ item }) => <StoryComponent story={item} />}
       />
-      <FloatingAddButton>
+      <FloatingAddButton
+        onPress={() => {
+          navigate('NewStory');
+        }}
+      >
         <MaterialCommunityIcons name="plus-circle" size={60} color="#08AE9E" />
       </FloatingAddButton>
     </Container>

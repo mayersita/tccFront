@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { toggleDrawer } from '../../services/navigation';
+import { navigate } from '../../services/navigation';
 
 import { HeaderComp, Profile, User, MenuArea } from './styles';
 
@@ -14,7 +15,7 @@ const HeaderComponent = () => {
         </MenuArea>
       }
       rightComponent={
-        <Profile>
+        <Profile onPress={() => navigate('Profile')}>
           <User>Olá Usuário</User>
           <FontAwesome name="user-circle" size={30} color="white" />
         </Profile>

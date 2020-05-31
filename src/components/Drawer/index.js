@@ -13,7 +13,20 @@ const Drawer = () => {
         <PerfilText>Olá Admin</PerfilText>
       </PerfilBar>
       <ScrollView>
-        <Item>
+        <Item
+          onPress={() => {
+            navigate('Home');
+          }}
+        >
+          <MaterialCommunityIcons name="home" size={20} color="#08AE9E" />
+          <Text>Home</Text>
+        </Item>
+
+        <Item
+          onPress={() => {
+            navigate('NewStory');
+          }}
+        >
           <MaterialCommunityIcons
             name="plus-circle"
             size={20}
