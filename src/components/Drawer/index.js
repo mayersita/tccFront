@@ -10,7 +10,7 @@ const Drawer = () => {
   return (
     <Container>
       <PerfilBar>
-        <PerfilText>Olá Admin</PerfilText>
+        <PerfilText>Olá Usuário</PerfilText>
       </PerfilBar>
       <ScrollView>
         <Item
@@ -34,7 +34,11 @@ const Drawer = () => {
           />
           <Text>Escrever hitória</Text>
         </Item>
-        <Item>
+        <Item
+          onPress={() => {
+            navigate('TeamStory');
+          }}
+        >
           <MaterialCommunityIcons
             name="account-group"
             size={20}

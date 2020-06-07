@@ -9,6 +9,9 @@ import MyStory from './pages/MyStory';
 import NewStory from './pages/NewStory';
 import Drawer from './components/Drawer';
 import Profile from './pages/Profile';
+import TeamStory from './pages/TeamStory';
+import StoryDetails from './pages/StoryDetails';
+import TeamRegistration from './pages/TeamRegistration';
 
 const AppMain = createStackNavigator(
   {
@@ -16,6 +19,9 @@ const AppMain = createStackNavigator(
     MyStory,
     NewStory,
     Profile,
+    TeamStory,
+    StoryDetails,
+    TeamRegistration,
   },
   {
     headerMode: 'none',

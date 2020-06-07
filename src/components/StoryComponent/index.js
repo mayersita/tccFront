@@ -15,7 +15,7 @@ import {
   TextErase,
 } from './styles';
 
-const StoryComponent = ({ story }) => {
+const StoryComponent = ({ story, fromTeam }) => {
   return (
     <Container>
       <TitleView>
@@ -29,11 +29,21 @@ const StoryComponent = ({ story }) => {
           <Description>{story.preview}</Description>
         </Line>
         <Line>
-          <TextLink onPress={() => navigate('MyStory')}>
+          {fromTeam ? (
+            <TextLink>
+              <TextErase>Autor: {story.author}</TextErase>
+            </TextLink>
+          ) : (
+            <TextLink>
+              <TextErase>Apagar</TextErase>
+            </TextLink>
+          )}
+          <TextLink
+            onPress={() => {
+              fromTeam ? navigate('StoryDetails') : navigate('MyStory');
+            }}
+          >
             <TextSeeMore>Ver mais</TextSeeMore>
-          </TextLink>
-          <TextLink>
-            <TextErase>Apagar</TextErase>
           </TextLink>
         </Line>
       </SubContainer>

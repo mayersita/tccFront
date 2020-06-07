@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dimensions, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { navigate } from '../../services/navigation';
 
 import {
   Container,
@@ -11,13 +12,13 @@ import {
   SignUpLinkText,
 } from './styles';
 
-const SignUp = ({ navigation }) => {
+const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   function goToLogin() {
-    navigation.navigate('Login');
+    navigate('Login');
   }
 
   return (
@@ -58,7 +59,9 @@ const SignUp = ({ navigation }) => {
             value={password}
             onChangeText={(text) => setPassword(text)}
           />
-          <SubmitButton>CADASTRAR</SubmitButton>
+          <SubmitButton onPress={() => navigate('TeamRegistration')}>
+            CADASTRAR
+          </SubmitButton>
         </LoginContainer>
         <SignUpLink onPress={goToLogin}>
           <SignUpLinkText>Já tenho uma conta</SignUpLinkText>
