@@ -25,6 +25,7 @@ const AppMain = createStackNavigator(
   },
   {
     headerMode: 'none',
+    initialRouteName: 'Home',
   }
 );
 

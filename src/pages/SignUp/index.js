@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Dimensions, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { navigate } from '../../services/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { Creators as AuthActions } from '../../store/ducks/auth';
 
 import {
   Container,
@@ -15,10 +17,16 @@ import {
 const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   function goToLogin() {
     navigate('Login');
+  }
+
+  function register() {
+    dispatch(AuthActions.signUpRequest(name, email, role, password));
   }
 
   return (
@@ -47,7 +55,13 @@ const SignUp = () => {
             onChangeText={(text) => setName(text)}
           />
           <TextInput
-            placeholder="Login"
+            placeholder="Função"
+            autoCorrect={false}
+            value={role}
+            onChangeText={(text) => setRole(text)}
+          />
+          <TextInput
+            placeholder="Email"
             autoCorrect={false}
             textContentType={'emailAddress'}
             value={email}
@@ -59,9 +73,7 @@ const SignUp = () => {
             value={password}
             onChangeText={(text) => setPassword(text)}
           />
-          <SubmitButton onPress={() => navigate('TeamRegistration')}>
-            CADASTRAR
-          </SubmitButton>
+          <SubmitButton onPress={() => register()}>CADASTRAR</SubmitButton>
         </LoginContainer>
         <SignUpLink onPress={goToLogin}>
           <SignUpLinkText>Já tenho uma conta</SignUpLinkText>

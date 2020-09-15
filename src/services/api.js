@@ -1,12 +1,21 @@
 import axios from 'axios';
-import { Alert, AsyncStorage } from 'react-native';
-import { getSocialId, getToken } from '~/utils/socialAuth';
-import { navigate } from './navigation';
+import { getToken } from '../utils/authUtils';
 
-const baseURL = 'localhost:3001/';
+const baseURL = 'http://192.168.0.123:3000/api/';
 
 const api = axios.create({
   baseURL,
 });
+
+api.interceptors.request.use(
+  async function (config) {
+    config.headers['Content-Type'] = 'application/json';
+    config.headers['Authorization'] = `Bearer ${await getToken()}`;
+    return config;
+  },
+  function (error) {
+    Promise.reject(error);
+  }
+);
 
 export { api, baseURL };

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Dimensions, Image, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { Creators as AuthActions } from '../../store/ducks/auth';
 import {
   Container,
   LoginContainer,
@@ -16,13 +17,15 @@ import {
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   function createAccount() {
     navigation.navigate('SignUp');
   }
   function forgotPass() {}
+
   function login() {
-    navigation.navigate('Home');
+    dispatch(AuthActions.authRequest(email, password));
   }
 
   return (
