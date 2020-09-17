@@ -179,9 +179,9 @@ export const Creators = {
     payload: { name, email, role, password },
   }),
 
-  signUpSuccess: (data, token) => ({
+  signUpSuccess: (data) => ({
     type: Types.SIGNUP_REQUEST_SUCCESS,
-    payload: { data, token },
+    payload: { data },
   }),
 
   signUpFailure: (errorMessage) => ({

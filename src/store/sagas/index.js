@@ -8,6 +8,11 @@ import {
   Types as AuthTypes,
 } from '../../store/ducks/auth';
 
+import {
+  Creators as TeamsActions,
+  Types as TeamsTypes,
+} from '../../store/ducks/teams';
+
 function* signin(action) {
   try {
     const { email, password } = action.payload;
@@ -41,6 +46,8 @@ function* signup(action) {
     };
     const response = yield call(api.post, 'users', jsonData);
     yield put(AuthActions.signUpSuccess(response.data));
+    AsyncStorage.setItem('token', response.data.token);
+    yield put(AuthActions.saveToken(response.data.token));
     navigate('TeamRegistration');
   } catch (err) {
     yield put(AuthActions.signUpFailure(err));
@@ -51,47 +58,33 @@ function* logout() {
   yield AsyncStorage.clear();
 }
 
-// function* requestProduct(action) {
-//   try {
-//     const { productId } = action.payload;
-//     const response = yield call(apiOrder.get, `api/Product/${productId}`);
+function* createTeam(action) {
+  try {
+    const { name, code } = action.payload;
+    const response = yield call(api.post, 'teams', { name, code });
+    yield put(TeamsActions.createTeamSuccess());
+  } catch (err) {
+    yield put(TeamsActions.createTeamFailure(err));
+  }
+}
 
-//     yield put(ProductActions.productSuccess(response.data));
-//   } catch (err) {
-//     if (err?.response?.data) {
-//       yield put(ProductActions.productFailure(err?.response?.data?.errors[0]));
-//     } else {
-//       // Mensagens provisórias de erro
-//       yield put(
-//         ProductActions.productFailure('Ocorreu um erro ao buscar produto')
-//       );
-//     }
-//   }
-// }
-
-// function* requestAllProducts(action) {
-//   try {
-//     const response = yield call(apiOrder.get, `api/Product`);
-
-//     yield put(ProductActions.allProductSuccess(response.data));
-//   } catch (err) {
-//     if (err?.response?.data) {
-//       yield put(
-//         ProductActions.allProductFailure(err?.response?.data?.errors[0])
-//       );
-//     } else {
-//       // Mensagens provisórias de erro
-//       yield put(
-//         ProductActions.allProductFailure('Ocorreu um erro ao buscar produtos')
-//       );
-//     }
-//   }
-// }
+function* joinTeam(action) {
+  try {
+    const { code } = action.payload;
+    const response = yield call(api.put, `teams/${code}`);
+    yield put(TeamsActions.joinTeamSuccess());
+  } catch (err) {
+    yield put(TeamsActions.joinTeamFailure(err));
+  }
+}
 
 export default function* rootSaga() {
   return yield all([
     takeLatest(AuthTypes.AUTH_REQUEST, signin),
     takeLatest(AuthTypes.SIGNUP_REQUEST, signup),
     takeLatest(AuthTypes.LOGOUT, logout),
+
+    takeLatest(TeamsTypes.CREATE_TEAM_REQUEST, createTeam),
+    takeLatest(TeamsTypes.JOIN_TEAM_REQUEST, joinTeam),
   ]);
 }

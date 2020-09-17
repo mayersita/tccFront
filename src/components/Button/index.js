@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Snackbar } from 'react-native-paper';
 
 import { Container, Text } from './styles';
 
@@ -7,7 +7,7 @@ const Button = ({ children, loading, ...rest }) => {
   return (
     <Container {...rest}>
       {loading ? (
-        <ActivityIndicator size="small" color="#FFF" />
+        <ActivityIndicator animating={true} color="#fff" />
       ) : (
         <Text>{children}</Text>
       )}

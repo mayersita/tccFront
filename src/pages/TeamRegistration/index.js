@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { navigate } from '../../services/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { Creators as TeamsActions } from '../../store/ducks/teams';
+import { ActivityIndicator, Snackbar } from 'react-native-paper';
 
 import {
   Container,
@@ -24,8 +27,38 @@ import {
 
 const TeamRegistration = () => {
   const [option, setOption] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [snackBarMessage, setSnackbarMessage] = useState('');
   const [code, setCode] = useState('');
   const [teamName, setTeamName] = useState('');
+  const dispatch = useDispatch();
+  const loading = useSelector((store) => store.teams.loading);
+  const success = useSelector((store) => store.teams.success);
+  const error = useSelector((store) => store.teams.error);
+
+  const createTeam = () => {
+    dispatch(TeamsActions.createTeamRequest(teamName, code));
+  };
+
+  const joinTeam = () => {
+    dispatch(TeamsActions.joinTeamRequest(code));
+  };
+
+  useEffect(() => {
+    onToggleSnackBar();
+  }, [success, error]);
+
+  const onToggleSnackBar = () => {
+    if (success) {
+      setVisible(!visible);
+      setSnackbarMessage('Registrado com sucesso!');
+    } else if (error) {
+      setVisible(!visible);
+      setSnackbarMessage('Ocorreu um erro!');
+    }
+  };
+
+  const onDismissSnackBar = () => setVisible(false);
 
   return (
     <>
@@ -74,10 +107,14 @@ const TeamRegistration = () => {
               </InputField>
               <SendCode
                 onPress={() => {
-                  alert('teste');
+                  joinTeam();
                 }}
               >
-                <MaterialIcons name="send" size={30} color="#2FCC76" />
+                {loading ? (
+                  <ActivityIndicator animating={true} color="#fff" />
+                ) : (
+                  <MaterialIcons name="send" size={30} color="#2FCC76" />
+                )}
               </SendCode>
             </SubView>
           )}
@@ -97,10 +134,24 @@ const TeamRegistration = () => {
                 value={code}
                 onChangeText={(text) => setCode(text)}
               />
-              <SubmitButton onPress={() => {}}>CRIAR</SubmitButton>
+              <SubmitButton
+                loading={loading}
+                onPress={() => {
+                  createTeam();
+                }}
+              >
+                CRIAR
+              </SubmitButton>
             </SubViewLarge>
           )}
         </LoginContainer>
+        <Snackbar
+          visible={visible}
+          duration={3000}
+          onDismiss={onDismissSnackBar}
+        >
+          {snackBarMessage}
+        </Snackbar>
       </Container>
     </>
   );
