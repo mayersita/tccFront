@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 
 import { StatusBar } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import HeaderComponent from '../../components/Header';
+import { Creators as StoryActions } from '../../store/ducks/story';
 import {
   Container,
   SubContainer,
@@ -22,6 +24,14 @@ import {
 const NewStory = () => {
   const [storyTitle, setStoryTitle] = useState('');
   const [storyDescription, setStoryDescription] = useState('');
+  const dispatch = useDispatch();
+  const loading = useSelector((store) => store.story.loading);
+  const success = useSelector((store) => store.story.success);
+  const error = useSelector((store) => store.story.error);
+
+  const createStoryAction = () => {
+    dispatch(StoryActions.createStory(storyTitle, storyDescription));
+  };
 
   return (
     <Container>
@@ -58,7 +68,11 @@ const NewStory = () => {
         <Clickable onPress={() => {}}>
           <AntDesign name="closecircleo" size={35} color="#FC0F3B" />
         </Clickable>
-        <Clickable onPress={() => {}}>
+        <Clickable
+          onPress={() => {
+            createStoryAction();
+          }}
+        >
           <AntDesign name="check" size={35} color="#08AE9E" />
         </Clickable>
       </BottomButtons>

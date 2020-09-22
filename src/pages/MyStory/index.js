@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import HeaderComponent from '../../components/Header';
 import { FontAwesome } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { Creators as StoryActions } from '../../store/ducks/story';
 import {
   Container,
   SubContainer,
@@ -24,7 +26,14 @@ import {
 } from './styles';
 
 const MyStory = () => {
+  const dispatch = useDispatch();
+  const [selectedStory, setSelectedStory] = useState(null);
+  const loading = useSelector((store) => store.story.loading);
+  const success = useSelector((store) => store.story.success);
+  const error = useSelector((store) => store.story.error);
+
   const myStory = {
+    idStory: 1,
     title: 'Story 1',
     description:
       'Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.',
@@ -45,7 +54,25 @@ const MyStory = () => {
     },
   ];
 
-  function deleteStory() {}
+  function deleteStory() {
+    Alert.alert(
+      'Tem certeza que deseja excluir?',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            dispatch(StoryActions.deleteStory(selectedStory));
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  }
 
   function editStory() {}
 
@@ -81,7 +108,7 @@ const MyStory = () => {
         )}
       />
       <BottomButtons>
-        <Clickable onPress={() => {}}>
+        <Clickable onPress={deleteStory}>
           <AntDesign name="closecircleo" size={35} color="#FC0F3B" />
         </Clickable>
         <Clickable onPress={() => {}}>

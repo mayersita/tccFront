@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { View, StatusBar } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HeaderComponent from '../../components/Header';
 import StoryComponent from '../../components/StoryComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { Creators as StoryActions } from '../../store/ducks/story';
 import { navigate } from '../../services/navigation';
 import {
   Container,
@@ -15,6 +17,17 @@ import {
 } from './styles';
 
 const TeamStory = () => {
+  const dispatch = useDispatch();
+  const loading = useSelector((store) => store.story.loading);
+  const success = useSelector((store) => store.story.success);
+  const error = useSelector((store) => store.story.error);
+
+  useEffect(() => {
+    dispatch(StoryActions.requestStoryById());
+  }, []);
+
+  const data = useSelector((store) => store.story.data);
+
   const teamStories = [
     {
       title: 'Story 1',
