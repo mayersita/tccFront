@@ -18,6 +18,11 @@ import {
   Types as StoryTypes,
 } from '../../store/ducks/story';
 
+import {
+  Creators as CommentsActions,
+  Types as CommentsTypes,
+} from '../../store/ducks/comments';
+
 function* signin(action) {
   try {
     const { email, password } = action.payload;
@@ -95,20 +100,44 @@ function* createStory(action) {
 
 function* getMyStories(action) {
   try {
-    const response = yield call(api.get, 'stories/my');
+    const { userId } = action.payload;
+    const response = yield call(api.post, '/stories/user', { user: userId });
     yield put(StoryActions.createStorySuccess(response.data));
   } catch (err) {
     yield put(StoryActions.createStoryFailure(err));
   }
 }
 
-function* getStoriesById(action) {
+function* getTeamIdByUser(action) {
+  try {
+    const { userId } = action.payload;
+    const response = yield call(api.post, `/teams/byUser`, { id: userId });
+    yield put(TeamsActions.teamByUserSuccess(response.data));
+  } catch (err) {
+    yield put(TeamsActions.teamByUserFailure(err));
+  }
+}
+
+function* getStoriesByTeamId(action) {
   try {
     const { teamId } = action.payload;
-    const response = yield call(api.get, `stories/${teamId}`);
+    const response = yield call(api.get, `/stories/team/${teamId}`);
     yield put(StoryActions.createStorySuccess(response.data));
   } catch (err) {
     yield put(StoryActions.createStoryFailure(err));
+  }
+}
+
+function* commentOnStory(action) {
+  try {
+    const { storyId, description } = action.payload;
+    const response = yield call(api.post, `comments`, {
+      story: storyId,
+      description: description,
+    });
+    yield put(CommentsActions.createCommentSuccess(response.data));
+  } catch (err) {
+    yield put(CommentsActions.createCommentFailure(err));
   }
 }
 
@@ -120,9 +149,12 @@ export default function* rootSaga() {
 
     takeLatest(TeamsTypes.CREATE_TEAM_REQUEST, createTeam),
     takeLatest(TeamsTypes.JOIN_TEAM_REQUEST, joinTeam),
+    takeLatest(TeamsTypes.REQUEST_TEAM_BYUSER, getTeamIdByUser),
 
     takeLatest(StoryTypes.CREATE_STORY, createStory),
     takeLatest(StoryTypes.MY_STORIES_REQUEST, getMyStories),
-    takeLatest(StoryTypes.STORIES_REQUEST_BYID, getStoriesById),
+    takeLatest(StoryTypes.STORIES_REQUEST_BYID, getStoriesByTeamId),
+
+    takeLatest(CommentsTypes.CREATE_COMMENT_REQUEST, commentOnStory),
   ]);
 }

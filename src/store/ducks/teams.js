@@ -9,12 +9,18 @@ export const Types = {
   JOIN_TEAM_REQUEST: 'JOIN_TEAM_REQUEST',
   JOIN_TEAM_REQUEST_SUCCESS: 'JOIN_TEAM_REQUEST_SUCCESS',
   JOIN_TEAM_REQUEST_FAILURE: 'JOIN_TEAM_REQUEST_FAILURE',
+
+  REQUEST_TEAM_BYUSER: 'REQUEST_TEAM_BYUSER',
+  REQUEST_TEAM_BYUSER_SUCCESS: 'REQUEST_TEAM_BYUSER_SUCCESS',
+  REQUEST_TEAM_BYUSER_FAILURE: 'REQUEST_TEAM_BYUSER_FAILURE',
 };
 
 /*
  * Reducer
  */
 const INITIAL_STATE = {
+  userId: null,
+  data: null,
   name: null,
   code: null,
   loading: false,
@@ -70,6 +76,30 @@ export default function teams(state = INITIAL_STATE, action) {
         success: false,
         error: true,
       };
+
+    case Types.REQUEST_TEAM_BYUSER:
+      return {
+        ...state,
+        userId: action.payload.userId,
+        success: false,
+        loading: true,
+        error: false,
+      };
+    case Types.REQUEST_TEAM_BYUSER_SUCCESS:
+      return {
+        ...state,
+        data: action.payload.data,
+        success: true,
+        loading: false,
+        error: false,
+      };
+    case Types.REQUEST_TEAM_BYUSER_FAILURE:
+      return {
+        ...state,
+        error: true,
+        loading: false,
+        success: false,
+      };
     default:
       return state;
   }
@@ -104,5 +134,19 @@ export const Creators = {
 
   joinTeamFailure: () => ({
     type: Types.JOIN_TEAM_FAILURE,
+  }),
+
+  teamByUserRequest: (userId) => ({
+    type: Types.REQUEST_TEAM_BYUSER,
+    payload: { userId },
+  }),
+
+  teamByUserSuccess: (data) => ({
+    type: Types.REQUEST_TEAM_BYUSER_SUCCESS,
+    payload: { data },
+  }),
+
+  teamByUserFailure: () => ({
+    type: Types.REQUEST_TEAM_BYUSER_FAILURE,
   }),
 };

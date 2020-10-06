@@ -28,6 +28,7 @@ export const Types = {
  */
 const INITIAL_STATE = {
   title: null,
+  userId: null,
   description: null,
   teamId: null,
   storyId: null,
@@ -66,6 +67,7 @@ export default function story(state = INITIAL_STATE, action) {
     case Types.MY_STORIES_REQUEST:
       return {
         ...state,
+        userId: action.payload.userId,
         error: false,
         success: false,
         loading: true,
@@ -177,8 +179,9 @@ export const Creators = {
     type: Types.CREATE_STORY_FAILURE,
   }),
 
-  myStoriesRequest: () => ({
+  myStoriesRequest: (userId) => ({
     type: Types.MY_STORIES_REQUEST,
+    payload: { userId },
   }),
 
   myStoriesSuccess: (data) => ({
