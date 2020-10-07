@@ -6,6 +6,7 @@ import HeaderComponent from '../../components/Header';
 import StoryComponent from '../../components/StoryComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as StoryActions } from '../../store/ducks/story';
+import { Creators as TeamsActions } from '../../store/ducks/teams';
 import { navigate } from '../../services/navigation';
 import {
   Container,
@@ -22,42 +23,27 @@ const TeamStory = () => {
   const success = useSelector((store) => store.story.success);
   const error = useSelector((store) => store.story.error);
 
+  const userId = useSelector((store) => store.auth.data._id);
+
   useEffect(() => {
-    dispatch(StoryActions.requestStoryById());
+    let loaded = true;
+    if (loaded) {
+      dispatch(TeamsActions.teamByUserRequest(userId));
+    }
+    return () => {
+      loaded = false;
+    };
   }, []);
 
-  const data = useSelector((store) => store.story.data);
+  const teamId = useSelector((store) => store.teams.data._id);
 
-  const teamStories = [
-    {
-      title: 'Story 1',
-      preview:
-        'Secondary line text Lorem ipsum dolor sit amet Secondary line text Lorem ipsum do...',
-      author: 'Usuario 1',
-      idAuthor: 1,
-    },
-    {
-      title: 'Story 2',
-      preview:
-        'Secondary line text Lorem ipsum dolor sit amet Secondary line text Lorem ipsum do...',
-      author: 'Usuario 2',
-      idAuthor: 2,
-    },
-    {
-      title: 'Story 3',
-      preview:
-        'Secondary line text Lorem ipsum dolor sit amet Secondary line text Lorem ipsum do...',
-      author: 'Usuario 3',
-      idAuthor: 3,
-    },
-    {
-      title: 'Story 4',
-      preview:
-        'Secondary line text Lorem ipsum dolor sit amet Secondary line text Lorem ipsum do...',
-      author: 'Usuario',
-      idAuthor: 4,
-    },
-  ];
+  useEffect(() => {
+    if (teamId) {
+      dispatch(StoryActions.requestStoryById(teamId));
+    }
+  }, [teamId]);
+
+  const teamStories = useSelector((store) => store.story.dataById);
 
   return (
     <Container>

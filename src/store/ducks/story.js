@@ -2,7 +2,7 @@
  * Action Types
  */
 export const Types = {
-  CREATE_STORY: 'CREATE_STORY',
+  CREATE_STORY_REQUEST: 'CREATE_STORY_REQUEST',
   CREATE_STORY_SUCCESS: 'CREATE_STORY_SUCCESS',
   CREATE_STORY_FAILURE: 'CREATE_STORY_FAILURE',
 
@@ -33,6 +33,7 @@ const INITIAL_STATE = {
   teamId: null,
   storyId: null,
   data: [],
+  dataById: [],
   loading: false,
   success: false,
   error: false,
@@ -40,7 +41,7 @@ const INITIAL_STATE = {
 
 export default function story(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case Types.CREATE_STORY:
+    case Types.CREATE_STORY_REQUEST:
       return {
         ...state,
         title: action.payload.title,
@@ -98,7 +99,7 @@ export default function story(state = INITIAL_STATE, action) {
     case Types.STORIES_REQUEST_BYID_SUCCESS:
       return {
         ...state,
-        data: action.payload.data,
+        dataById: action.payload.dataById,
         success: true,
         loading: false,
         error: false,
@@ -198,9 +199,9 @@ export const Creators = {
     payload: { teamId },
   }),
 
-  requestStoryByIdSuccess: (data) => ({
+  requestStoryByIdSuccess: (dataById) => ({
     type: Types.MY_STORIES_REQUEST_SUCCESS,
-    payload: { data },
+    payload: { dataById },
   }),
 
   requestStoryByIdFailure: () => ({

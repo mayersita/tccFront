@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { View, StatusBar, TouchableOpacity } from 'react-native';
+import {
+  View,
+  StatusBar,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import HeaderComponent from '../../components/Header';
+import { Creators as CommentsActions } from '../../store/ducks/comments';
 import { FontAwesome } from '@expo/vector-icons';
 import {
   Container,
@@ -23,35 +30,32 @@ import {
   InputComment,
 } from './styles';
 
-const StoryDetails = () => {
+const StoryDetails = ({ navigation }) => {
   const [comment, setComment] = useState('');
-  const storyInfo = {
-    title: 'Story 1',
-    description:
-      'Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.',
-    author: 'Usuario 1',
-    idAuthor: 1,
+  const story = navigation.getParam('story');
+  const dispatch = useDispatch();
+  const loading = useSelector((store) => store.comments.loading);
+  const success = useSelector((store) => store.comments.success);
+  const error = useSelector((store) => store.comments.error);
+
+  const onRefresh = () => {
+    dispatch(CommentsActions.getComments(story._id));
   };
 
-  const comments = [
-    {
-      idUser: 1,
-      userName: 'Usuario 2',
-      commentDescription: 'Essa história está muito bem escrita!',
-    },
-    {
-      idUser: 2,
-      userName: 'Usuario 3',
-      commentDescription: 'Essa história está curta, falta mais detalhes!',
-    },
-  ];
+  useEffect(() => {
+    let loaded = true;
+    if (loaded) {
+      dispatch(CommentsActions.getComments(story._id));
+    }
+    return () => {
+      loaded = false;
+    };
+  }, []);
+
+  const commentsfromStory = useSelector((store) => store.comments.dataComments);
 
   function writeComment() {
-    comments.push({
-      idUser: 4,
-      userName: 'Usuario 4',
-      commentDescription: comment,
-    });
+    dispatch(CommentsActions.createComment(story._id, comment));
   }
 
   return (
@@ -74,6 +78,9 @@ const StoryDetails = () => {
       <List
         data={comments}
         keyExtractor={(item) => item.title}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+        }
         renderItem={({ item }) => (
           <CommentView>
             <UserProfile>
@@ -87,7 +94,7 @@ const StoryDetails = () => {
       <Inputcontainer>
         <InputComment
           placeholder="Escreva um comentário..."
-          value={comment}
+          value={commentsfromStory}
           autoCorrect={true}
           onChangeText={(text) => setComment(text)}
           returnKeyType="send"

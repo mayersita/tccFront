@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderComponent from '../../components/Header';
 import { Creators as StoryActions } from '../../store/ducks/story';
+import { back } from '../../services/navigation';
 import {
   Container,
   SubContainer,
@@ -65,7 +66,7 @@ const NewStory = () => {
       </ContView>
       <Space />
       <BottomButtons>
-        <Clickable onPress={() => {}}>
+        <Clickable onPress={() => back()}>
           <AntDesign name="closecircleo" size={35} color="#FC0F3B" />
         </Clickable>
         <Clickable

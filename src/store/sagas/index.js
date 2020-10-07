@@ -28,7 +28,7 @@ function* signin(action) {
     const { email, password } = action.payload;
 
     const jsonData = {
-      username: email,
+      email,
       password,
     };
 
@@ -141,6 +141,16 @@ function* commentOnStory(action) {
   }
 }
 
+function* getCommentsFromStory(action) {
+  try {
+    const { storyId } = action.payload;
+    const response = yield call(api.post, `comments/${storyId}`);
+    yield put(CommentsActions.getCommentsSuccess(response.data));
+  } catch (err) {
+    yield put(CommentsActions.getCommentsFailure(err));
+  }
+}
+
 export default function* rootSaga() {
   return yield all([
     takeLatest(AuthTypes.AUTH_REQUEST, signin),
@@ -156,5 +166,6 @@ export default function* rootSaga() {
     takeLatest(StoryTypes.STORIES_REQUEST_BYID, getStoriesByTeamId),
 
     takeLatest(CommentsTypes.CREATE_COMMENT_REQUEST, commentOnStory),
+    takeLatest(CommentsTypes.GET_COMMENT_FROM_STORY, getCommentsFromStory),
   ]);
 }

@@ -21,42 +21,18 @@ const Home = () => {
   const loading = useSelector((store) => store.story.loading);
   const success = useSelector((store) => store.story.success);
   const error = useSelector((store) => store.story.error);
+  const myStories = useSelector((store) => store.story.data);
+  const userId = useSelector((store) => store.auth.data._id);
 
   useEffect(() => {
-    dispatch(StoryActions.myStoriesRequest());
+    let loaded = true;
+    if (loaded && userId) {
+      dispatch(StoryActions.myStoriesRequest(userId));
+    }
+    return () => {
+      loaded = false;
+    };
   }, []);
-
-  //const myStories = useSelector((store) => store.story.data);
-  const myStories = [
-    {
-      title: 'Story 1',
-      preview:
-        'Secondary line text Lorem ipsum dolor sit amet Secondary line text Lorem ipsum do...',
-      author: 'Usuario',
-      idAuthor: 1,
-    },
-    {
-      title: 'Story 2',
-      preview:
-        'Secondary line text Lorem ipsum dolor sit amet Secondary line text Lorem ipsum do...',
-      author: 'Usuario',
-      idAuthor: 1,
-    },
-    {
-      title: 'Story 3',
-      preview:
-        'Secondary line text Lorem ipsum dolor sit amet Secondary line text Lorem ipsum do...',
-      author: 'Usuario',
-      idAuthor: 1,
-    },
-    {
-      title: 'Story 4',
-      preview:
-        'Secondary line text Lorem ipsum dolor sit amet Secondary line text Lorem ipsum do...',
-      author: 'Usuario',
-      idAuthor: 1,
-    },
-  ];
 
   return (
     <Container>
@@ -68,7 +44,7 @@ const Home = () => {
         </TitleView>
       </SubContainer>
       <List
-        data={myStories}
+        data={myStories.docs}
         keyExtractor={(item) => item.title}
         renderItem={({ item }) => <StoryComponent story={item} />}
       />

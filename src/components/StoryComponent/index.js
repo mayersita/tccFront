@@ -15,7 +15,7 @@ import {
   TextErase,
 } from './styles';
 
-const StoryComponent = ({ story, fromTeam }) => {
+const StoryComponent = ({ story, fromTeam = false }) => {
   return (
     <Container>
       <TitleView>
@@ -26,7 +26,9 @@ const StoryComponent = ({ story, fromTeam }) => {
       </TitleView>
       <SubContainer>
         <Line>
-          <Description>{story.preview}</Description>
+          <Description>
+            {story.description.substring(0, 81)} {'...'}
+          </Description>
         </Line>
         <Line>
           {fromTeam ? (
@@ -40,7 +42,9 @@ const StoryComponent = ({ story, fromTeam }) => {
           )}
           <TextLink
             onPress={() => {
-              fromTeam ? navigate('StoryDetails') : navigate('MyStory');
+              fromTeam
+                ? navigate('StoryDetails', { story: story })
+                : navigate('MyStory', { story: story });
             }}
           >
             <TextSeeMore>Ver mais</TextSeeMore>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { View, StatusBar, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
@@ -7,6 +7,7 @@ import HeaderComponent from '../../components/Header';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as StoryActions } from '../../store/ducks/story';
+import { back } from '../../services/navigation';
 import {
   Container,
   SubContainer,
@@ -114,7 +115,7 @@ const MyStory = () => {
         <Clickable onPress={() => {}}>
           <MaterialIcons name="edit" size={35} color="#08AE9E" />
         </Clickable>
-        <Clickable onPress={() => {}}>
+        <Clickable onPress={() => back()}>
           <AntDesign name="check" size={35} color="#08AE9E" />
         </Clickable>
       </BottomButtons>
