@@ -20,6 +20,9 @@ const SignUp = () => {
   const [role, setRole] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const loading = useSelector((store) => store.auth.loadingSignUp);
+  const success = useSelector((store) => store.auth.successSignUp);
+  const error = useSelector((store) => store.auth.errorSignUp);
 
   function goToLogin() {
     navigate('Login');
@@ -63,6 +66,7 @@ const SignUp = () => {
           <TextInput
             placeholder="Email"
             autoCorrect={false}
+            autoCapitalize="none"
             textContentType={'emailAddress'}
             value={email}
             onChangeText={(text) => setEmail(text)}
@@ -71,9 +75,12 @@ const SignUp = () => {
             placeholder="Password"
             secureTextEntry={true}
             value={password}
+            autoCapitalize="none"
             onChangeText={(text) => setPassword(text)}
           />
-          <SubmitButton onPress={() => register()}>CADASTRAR</SubmitButton>
+          <SubmitButton loading={loading} onPress={() => register()}>
+            CADASTRAR
+          </SubmitButton>
         </LoginContainer>
         <SignUpLink onPress={goToLogin}>
           <SignUpLinkText>Já tenho uma conta</SignUpLinkText>

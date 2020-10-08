@@ -2,15 +2,17 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 
 import { Container, PerfilBar, PerfilText, Item, Text } from './styles';
 import { navigate } from '../../services/navigation';
 
 const Drawer = () => {
+  const profileName = useSelector((store) => store.auth.data.name) ?? 'Usuário';
   return (
     <Container>
       <PerfilBar>
-        <PerfilText>Olá Usuário</PerfilText>
+        <PerfilText>Olá {profileName}</PerfilText>
       </PerfilBar>
       <ScrollView>
         <Item

@@ -31,6 +31,10 @@ const INITIAL_STATE = {
   loading: false,
   success: false,
   error: false,
+  loadingSignUp: false,
+  successSignUp: false,
+  errorSignUp: false,
+  errorMessage: '',
 };
 
 export default function auth(state = INITIAL_STATE, action) {
@@ -85,31 +89,31 @@ export default function auth(state = INITIAL_STATE, action) {
         email: action.payload.email,
         role: action.payload.role,
         password: action.payload.password,
-        error: false,
+        errorSignUp: false,
         errorMessage: null,
-        success: false,
-        loading: true,
+        successSignUp: false,
+        loadingSignUp: true,
       };
     case Types.SIGNUP_REQUEST_SUCCESS:
       return {
         ...state,
         data: action.payload.data,
-        success: true,
-        loading: false,
-        error: false,
+        successSignUp: true,
+        loadingSignUp: false,
+        errorSignUp: false,
         errorMessage: null,
       };
     case Types.SIGNUP_REQUEST_FAILURE:
       return {
         ...state,
-        loading: false,
         name: null,
         email: null,
         password: null,
         token: null,
-        success: false,
         signed: false,
-        error: true,
+        successSignUp: false,
+        loadingSignUp: false,
+        errorSignUp: true,
         errorMessage: action.payload.errorMessage,
       };
     case Types.LOGOUT:
@@ -125,6 +129,9 @@ export default function auth(state = INITIAL_STATE, action) {
         loading: false,
         success: false,
         error: false,
+        successSignUp: false,
+        loadingSignUp: false,
+        errorSignUp: false,
       };
 
     case Types.USER_SIGNED:

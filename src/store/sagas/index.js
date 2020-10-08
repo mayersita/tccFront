@@ -2,7 +2,7 @@ import { all, takeLatest, call, put, delay } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
 import { Alert } from 'react-native';
 import { api } from '../../services/api';
-import { navigate } from '../../services/navigation';
+import { navigate, back } from '../../services/navigation';
 import {
   Creators as AuthActions,
   Types as AuthTypes,
@@ -90,11 +90,27 @@ function* joinTeam(action) {
 
 function* createStory(action) {
   try {
-    const { title, description } = action.payload;
-    const response = yield call(api.post, 'stories', { title, description });
+    const { title, description, teamId } = action.payload;
+    const response = yield call(api.post, 'stories', {
+      title,
+      description,
+      team: teamId,
+    });
     yield put(StoryActions.createStorySuccess());
+    back();
   } catch (err) {
     yield put(StoryActions.createStoryFailure(err));
+  }
+}
+
+function* deleteStory(action) {
+  try {
+    const { storyId } = action.payload;
+    const response = yield call(api.delete, `stories/${storyId}`);
+    yield put(StoryActions.deleteStorySuccess());
+    back();
+  } catch (err) {
+    yield put(StoryActions.deleteStoryFailure(err));
   }
 }
 
@@ -102,9 +118,9 @@ function* getMyStories(action) {
   try {
     const { userId } = action.payload;
     const response = yield call(api.post, '/stories/user', { user: userId });
-    yield put(StoryActions.createStorySuccess(response.data));
+    yield put(StoryActions.myStoriesSuccess(response.data));
   } catch (err) {
-    yield put(StoryActions.createStoryFailure(err));
+    yield put(StoryActions.myStoriesFailure(err));
   }
 }
 
@@ -112,7 +128,7 @@ function* getTeamIdByUser(action) {
   try {
     const { userId } = action.payload;
     const response = yield call(api.post, `/teams/byUser`, { id: userId });
-    yield put(TeamsActions.teamByUserSuccess(response.data));
+    yield put(TeamsActions.teamByUserSuccess(response.data[0]));
   } catch (err) {
     yield put(TeamsActions.teamByUserFailure(err));
   }
@@ -122,9 +138,9 @@ function* getStoriesByTeamId(action) {
   try {
     const { teamId } = action.payload;
     const response = yield call(api.get, `/stories/team/${teamId}`);
-    yield put(StoryActions.createStorySuccess(response.data));
+    yield put(StoryActions.requestStoryByIdSuccess(response.data));
   } catch (err) {
-    yield put(StoryActions.createStoryFailure(err));
+    yield put(StoryActions.requestStoryByIdFailure(err));
   }
 }
 
@@ -144,7 +160,7 @@ function* commentOnStory(action) {
 function* getCommentsFromStory(action) {
   try {
     const { storyId } = action.payload;
-    const response = yield call(api.post, `comments/${storyId}`);
+    const response = yield call(api.post, `comments/story/${storyId}`);
     yield put(CommentsActions.getCommentsSuccess(response.data));
   } catch (err) {
     yield put(CommentsActions.getCommentsFailure(err));
@@ -161,7 +177,8 @@ export default function* rootSaga() {
     takeLatest(TeamsTypes.JOIN_TEAM_REQUEST, joinTeam),
     takeLatest(TeamsTypes.REQUEST_TEAM_BYUSER, getTeamIdByUser),
 
-    takeLatest(StoryTypes.CREATE_STORY, createStory),
+    takeLatest(StoryTypes.CREATE_STORY_REQUEST, createStory),
+    takeLatest(StoryTypes.DELETE_STORY, deleteStory),
     takeLatest(StoryTypes.MY_STORIES_REQUEST, getMyStories),
     takeLatest(StoryTypes.STORIES_REQUEST_BYID, getStoriesByTeamId),
 

@@ -5,6 +5,7 @@ import {
   StatusBar,
   TouchableOpacity,
   RefreshControl,
+  Text,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +34,7 @@ import {
 const StoryDetails = ({ navigation }) => {
   const [comment, setComment] = useState('');
   const story = navigation.getParam('story');
+  const fromTeam = navigation.getParam('fromTeam');
   const dispatch = useDispatch();
   const loading = useSelector((store) => store.comments.loading);
   const success = useSelector((store) => store.comments.success);
@@ -56,6 +58,7 @@ const StoryDetails = ({ navigation }) => {
 
   function writeComment() {
     dispatch(CommentsActions.createComment(story._id, comment));
+    setComment('');
   }
 
   return (
@@ -64,33 +67,39 @@ const StoryDetails = ({ navigation }) => {
       <HeaderComponent />
       <SubContainer>
         <TitleView>
-          <TitleText>{storyInfo.title}</TitleText>
-          <SubText>Autor: {storyInfo.author}</SubText>
+          <TitleText>{story.title}</TitleText>
+          <SubText>
+            Autor: {fromTeam ? story.author.name : story.author}
+          </SubText>
         </TitleView>
       </SubContainer>
       <Scrollable>
-        <StoryText>{storyInfo.description}</StoryText>
+        <StoryText>{story.description}</StoryText>
       </Scrollable>
       <CommentTitleView>
         <MaterialIcons name="chat" size={25} color="#2FCC76" />
         <TextComments>Comentários:</TextComments>
       </CommentTitleView>
-      <List
-        data={comments}
-        keyExtractor={(item) => item.title}
-        refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={onRefresh} />
-        }
-        renderItem={({ item }) => (
-          <CommentView>
-            <UserProfile>
-              <FontAwesome name="user-circle" size={25} color="#7D7D7D" />
-              <UserInfo>{item.userName}:</UserInfo>
-            </UserProfile>
-            <CommentText>{item.commentDescription}</CommentText>
-          </CommentView>
-        )}
-      />
+      {commentsfromStory ? (
+        <List
+          data={commentsfromStory.docs}
+          keyExtractor={(item) => item.title}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+          }
+          renderItem={({ item }) => (
+            <CommentView>
+              <UserProfile>
+                <FontAwesome name="user-circle" size={25} color="#7D7D7D" />
+                <UserInfo>{item.user.name}:</UserInfo>
+              </UserProfile>
+              <CommentText>{item.description}</CommentText>
+            </CommentView>
+          )}
+        />
+      ) : (
+        <Text>Ninguém comentou nessa história ainda...</Text>
+      )}
       <Inputcontainer>
         <InputComment
           placeholder="Escreva um comentário..."

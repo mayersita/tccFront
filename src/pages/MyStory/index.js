@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import { View, StatusBar, Alert } from 'react-native';
+import { View, StatusBar, Alert, RefreshControl } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import HeaderComponent from '../../components/Header';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as StoryActions } from '../../store/ducks/story';
+import { Creators as CommentsActions } from '../../store/ducks/comments';
 import { back } from '../../services/navigation';
 import {
   Container,
@@ -26,38 +27,31 @@ import {
   Clickable,
 } from './styles';
 
-const MyStory = () => {
+const MyStory = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [selectedStory, setSelectedStory] = useState(null);
+  const story = navigation.getParam('story');
   const loading = useSelector((store) => store.story.loading);
   const success = useSelector((store) => store.story.success);
   const error = useSelector((store) => store.story.error);
 
-  const myStory = {
-    idStory: 1,
-    title: 'Story 1',
-    description:
-      'Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.',
-    author: 'Usuario',
-    idAuthor: 1,
+  const onRefresh = () => {
+    dispatch(CommentsActions.getComments(story._id));
   };
+  useEffect(() => {
+    let loaded = true;
+    if (loaded) {
+      dispatch(CommentsActions.getComments(story._id));
+    }
+    return () => {
+      loaded = false;
+    };
+  }, []);
+  const commentsfromStory = useSelector((store) => store.comments.dataComments);
 
-  const comments = [
-    {
-      idUser: 1,
-      userName: 'Usuario 1',
-      commentDescription: 'Essa história está muito bem escrita!',
-    },
-    {
-      idUser: 2,
-      userName: 'Usuario 2',
-      commentDescription: 'Essa história está curta, falta mais detalhes!',
-    },
-  ];
-
-  function deleteStory() {
+  function deleteStory(storyId) {
     Alert.alert(
       'Tem certeza que deseja excluir?',
+      '',
       [
         {
           text: 'Cancelar',
@@ -67,7 +61,7 @@ const MyStory = () => {
         {
           text: 'Sim',
           onPress: () => {
-            dispatch(StoryActions.deleteStory(selectedStory));
+            dispatch(StoryActions.deleteStory(storyId));
           },
         },
       ],
@@ -85,38 +79,45 @@ const MyStory = () => {
       <HeaderComponent />
       <SubContainer>
         <TitleView>
-          <TitleText>{myStory.title}</TitleText>
+          <TitleText>{story.title}</TitleText>
         </TitleView>
       </SubContainer>
       <Scrollable>
-        <StoryText>{myStory.description}</StoryText>
+        <StoryText>{story.description}</StoryText>
       </Scrollable>
       <CommentTitleView>
         <MaterialIcons name="chat" size={25} color="#2FCC76" />
         <TextComments>Comentários:</TextComments>
       </CommentTitleView>
       <List
-        data={comments}
+        data={commentsfromStory.docs}
         keyExtractor={(item) => item.title}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+        }
         renderItem={({ item }) => (
           <CommentView>
             <UserProfile>
               <FontAwesome name="user-circle" size={25} color="#7D7D7D" />
-              <UserInfo>{item.userName}:</UserInfo>
+              <UserInfo>{item.user.name}:</UserInfo>
             </UserProfile>
-            <CommentText>{item.commentDescription}</CommentText>
+            <CommentText>{item.description}</CommentText>
           </CommentView>
         )}
       />
       <BottomButtons>
-        <Clickable onPress={deleteStory}>
-          <AntDesign name="closecircleo" size={35} color="#FC0F3B" />
+        <Clickable onPress={() => deleteStory(story._id)}>
+          <FontAwesome name="trash" size={35} color="#FC0F3B" />
         </Clickable>
-        <Clickable onPress={() => {}}>
+        <Clickable
+          onPress={() => {
+            Alert.alert('Ops!', 'Esta funcionalidade está em desenvolvimento!');
+          }}
+        >
           <MaterialIcons name="edit" size={35} color="#08AE9E" />
         </Clickable>
         <Clickable onPress={() => back()}>
-          <AntDesign name="check" size={35} color="#08AE9E" />
+          <AntDesign name="checkcircle" size={35} color="#08AE9E" />
         </Clickable>
       </BottomButtons>
     </Container>

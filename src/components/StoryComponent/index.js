@@ -33,7 +33,7 @@ const StoryComponent = ({ story, fromTeam = false }) => {
         <Line>
           {fromTeam ? (
             <TextLink>
-              <TextErase>Autor: {story.author}</TextErase>
+              <TextErase>Autor: {story.author.name}</TextErase>
             </TextLink>
           ) : (
             <TextLink>
@@ -43,7 +43,7 @@ const StoryComponent = ({ story, fromTeam = false }) => {
           <TextLink
             onPress={() => {
               fromTeam
-                ? navigate('StoryDetails', { story: story })
+                ? navigate('StoryDetails', { story: story, fromTeam: true })
                 : navigate('MyStory', { story: story });
             }}
           >

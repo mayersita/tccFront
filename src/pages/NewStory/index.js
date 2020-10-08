@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderComponent from '../../components/Header';
 import { Creators as StoryActions } from '../../store/ducks/story';
+import { Creators as TeamsActions } from '../../store/ducks/teams';
 import { back } from '../../services/navigation';
 import {
   Container,
@@ -29,9 +30,14 @@ const NewStory = () => {
   const loading = useSelector((store) => store.story.loading);
   const success = useSelector((store) => store.story.success);
   const error = useSelector((store) => store.story.error);
+  const userId = useSelector((store) => store.auth.data._id);
+  const teamId = useSelector((store) => store.teams?.data?._id);
 
   const createStoryAction = () => {
-    dispatch(StoryActions.createStory(storyTitle, storyDescription));
+    dispatch(TeamsActions.teamByUserRequest(userId));
+    if (teamId) {
+      dispatch(StoryActions.createStory(storyTitle, storyDescription, teamId));
+    }
   };
 
   return (

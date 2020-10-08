@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, RefreshControl } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HeaderComponent from '../../components/Header';
 import StoryComponent from '../../components/StoryComponent';
@@ -16,7 +16,7 @@ import {
   FloatingAddButton,
 } from './styles';
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const dispatch = useDispatch();
   const loading = useSelector((store) => store.story.loading);
   const success = useSelector((store) => store.story.success);
@@ -24,9 +24,13 @@ const Home = () => {
   const myStories = useSelector((store) => store.story.data);
   const userId = useSelector((store) => store.auth.data._id);
 
+  const onRefresh = () => {
+    dispatch(StoryActions.myStoriesRequest(userId));
+  };
+
   useEffect(() => {
     let loaded = true;
-    if (loaded && userId) {
+    if (loaded) {
       dispatch(StoryActions.myStoriesRequest(userId));
     }
     return () => {
@@ -46,6 +50,9 @@ const Home = () => {
       <List
         data={myStories.docs}
         keyExtractor={(item) => item.title}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+        }
         renderItem={({ item }) => <StoryComponent story={item} />}
       />
       <FloatingAddButton

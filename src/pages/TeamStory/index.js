@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, RefreshControl, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HeaderComponent from '../../components/Header';
 import StoryComponent from '../../components/StoryComponent';
@@ -25,6 +25,12 @@ const TeamStory = () => {
 
   const userId = useSelector((store) => store.auth.data._id);
 
+  const onRefresh = () => {
+    if (teamId) {
+      dispatch(StoryActions.requestStoryById(teamId));
+    }
+  };
+
   useEffect(() => {
     let loaded = true;
     if (loaded) {
@@ -35,7 +41,7 @@ const TeamStory = () => {
     };
   }, []);
 
-  const teamId = useSelector((store) => store.teams.data._id);
+  const teamId = useSelector((store) => store.teams?.data?._id) ?? null;
 
   useEffect(() => {
     if (teamId) {
@@ -54,11 +60,18 @@ const TeamStory = () => {
           <TitleText>Histórias do time</TitleText>
         </TitleView>
       </SubContainer>
-      <List
-        data={teamStories}
-        keyExtractor={(item) => item.title}
-        renderItem={({ item }) => <StoryComponent story={item} fromTeam />}
-      />
+      {teamStories ? (
+        <List
+          data={teamStories.docs}
+          keyExtractor={(item) => item.title}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+          }
+          renderItem={({ item }) => <StoryComponent story={item} fromTeam />}
+        />
+      ) : (
+        <Text>Não há histórias a serem exibidas</Text>
+      )}
     </Container>
   );
 };

@@ -11,7 +11,7 @@ export const HeaderComp = styled(Header).attrs({
 })``;
 
 export const Profile = styled.TouchableOpacity`
-  width: 120px;
+  max-width: 120px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -21,6 +21,8 @@ export const User = styled.Text`
   color: #fff;
   font-size: 14px;
   font-family: 'roboto-bold';
+  text-align: right;
+  margin-right: 20px;
 `;
 
 export const MenuArea = styled.TouchableOpacity`

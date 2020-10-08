@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Dimensions, Image, StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Dimensions, Image, StatusBar, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as AuthActions } from '../../store/ducks/auth';
@@ -18,7 +18,13 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const loading = useSelector((store) => store.auth.loading);
+  const success = useSelector((store) => store.auth.success);
+  const error = useSelector((store) => store.auth.error);
 
+  useEffect(() => {
+    if (error == true) Alert.alert('Ocorreu um erro ao logar!');
+  }, [error]);
   function createAccount() {
     navigation.navigate('SignUp');
   }
@@ -51,6 +57,7 @@ const Login = ({ navigation }) => {
             placeholder="Login"
             value={email}
             autoCorrect={false}
+            autoCapitalize="none"
             textContentType={'emailAddress'}
             keyboardType={'email-address'}
             onChangeText={(text) => setEmail(text)}
@@ -58,10 +65,13 @@ const Login = ({ navigation }) => {
           <TextInput
             placeholder="Password"
             secureTextEntry={true}
+            autoCapitalize="none"
             value={password}
             onChangeText={(text) => setPassword(text)}
           />
-          <SubmitButton onPress={login}>ENTRAR</SubmitButton>
+          <SubmitButton loading={loading} onPress={login}>
+            ENTRAR
+          </SubmitButton>
           <ForgotPassLink onPress={forgotPass}>
             <ForgotPassText>Esqueci a senha</ForgotPassText>
           </ForgotPassLink>

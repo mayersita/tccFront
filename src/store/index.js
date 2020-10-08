@@ -11,6 +11,8 @@ import sagas from './sagas';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  blacklist: ['teams', 'comments', 'story'],
+  transforms: [createWhitelistFilter('auth', ['signed', 'data'])],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

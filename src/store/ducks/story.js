@@ -46,6 +46,7 @@ export default function story(state = INITIAL_STATE, action) {
         ...state,
         title: action.payload.title,
         description: action.payload.description,
+        teamId: action.payload.teamId,
         success: false,
         loading: true,
         error: false,
@@ -167,9 +168,9 @@ export default function story(state = INITIAL_STATE, action) {
  */
 
 export const Creators = {
-  createStory: (title, description) => ({
+  createStory: (title, description, teamId) => ({
     type: Types.CREATE_STORY_REQUEST,
-    payload: { title, description },
+    payload: { title, description, teamId },
   }),
 
   createStorySuccess: () => ({
@@ -195,17 +196,17 @@ export const Creators = {
   }),
 
   requestStoryById: (teamId) => ({
-    type: Types.MY_STORIES_REQUEST,
+    type: Types.STORIES_REQUEST_BYID,
     payload: { teamId },
   }),
 
   requestStoryByIdSuccess: (dataById) => ({
-    type: Types.MY_STORIES_REQUEST_SUCCESS,
+    type: Types.STORIES_REQUEST_BYID_SUCCESS,
     payload: { dataById },
   }),
 
   requestStoryByIdFailure: () => ({
-    type: Types.MY_STORIES_REQUEST_FAILURE,
+    type: Types.STORIES_REQUEST_BYID_FAILURE,
   }),
 
   editStory: (teamId) => ({
@@ -222,14 +223,13 @@ export const Creators = {
     type: Types.EDIT_STORY_FAILURE,
   }),
 
-  deleteStory: (teamId) => ({
+  deleteStory: (storyId) => ({
     type: Types.DELETE_STORY,
-    payload: { teamId },
+    payload: { storyId },
   }),
 
-  deleteStorySuccess: (data) => ({
+  deleteStorySuccess: () => ({
     type: Types.DELETE_STORY_SUCCESS,
-    payload: { data },
   }),
 
   deleteStoryFailure: () => ({
