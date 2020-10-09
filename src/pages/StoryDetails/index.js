@@ -39,15 +39,25 @@ const StoryDetails = ({ navigation }) => {
   const loading = useSelector((store) => store.comments.loading);
   const success = useSelector((store) => store.comments.success);
   const error = useSelector((store) => store.comments.error);
+  let page = 1;
 
   const onRefresh = () => {
-    dispatch(CommentsActions.getComments(story._id));
+    dispatch(CommentsActions.getComments(story._id, page));
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('willFocus', () => {
+      dispatch(CommentsActions.getComments(story._id, page));
+    });
+    return () => {
+      unsubscribe.remove();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     let loaded = true;
     if (loaded) {
-      dispatch(CommentsActions.getComments(story._id));
+      dispatch(CommentsActions.getComments(story._id, page));
     }
     return () => {
       loaded = false;
@@ -59,7 +69,12 @@ const StoryDetails = ({ navigation }) => {
   function writeComment() {
     dispatch(CommentsActions.createComment(story._id, comment));
     setComment('');
+    onRefresh();
   }
+
+  const handleLoadMore = () => {
+    dispatch(CommentsActions.getComments(story._id, page + 1));
+  };
 
   return (
     <Container>
@@ -82,8 +97,10 @@ const StoryDetails = ({ navigation }) => {
       </CommentTitleView>
       {commentsfromStory ? (
         <List
-          data={commentsfromStory.docs}
-          keyExtractor={(item) => item.title}
+          data={commentsfromStory}
+          keyExtractor={(item) => item._id}
+          // onEndReached={commentsfromStory?.length >= 10 ? handleLoadMore : null}
+          // onEndReachedThreshold={0.01}
           refreshControl={
             <RefreshControl refreshing={loading} onRefresh={onRefresh} />
           }
@@ -103,7 +120,7 @@ const StoryDetails = ({ navigation }) => {
       <Inputcontainer>
         <InputComment
           placeholder="Escreva um comentário..."
-          value={commentsfromStory}
+          value={comment}
           autoCorrect={true}
           onChangeText={(text) => setComment(text)}
           returnKeyType="send"

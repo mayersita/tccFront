@@ -17,19 +17,29 @@ import {
   FloatingAddButton,
 } from './styles';
 
-const TeamStory = () => {
+const TeamStory = ({ navigation }) => {
   const dispatch = useDispatch();
   const loading = useSelector((store) => store.story.loading);
   const success = useSelector((store) => store.story.success);
   const error = useSelector((store) => store.story.error);
+  let page = 1;
 
   const userId = useSelector((store) => store.auth.data._id);
 
   const onRefresh = () => {
     if (teamId) {
-      dispatch(StoryActions.requestStoryById(teamId));
+      dispatch(StoryActions.requestStoryById(teamId, page));
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('willFocus', () => {
+      dispatch(StoryActions.requestStoryById(teamId, page));
+    });
+    return () => {
+      unsubscribe.remove();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     let loaded = true;
@@ -45,9 +55,13 @@ const TeamStory = () => {
 
   useEffect(() => {
     if (teamId) {
-      dispatch(StoryActions.requestStoryById(teamId));
+      dispatch(StoryActions.requestStoryById(teamId, page));
     }
   }, [teamId]);
+
+  const handleLoadMore = () => {
+    dispatch(StoryActions.requestStoryById(userId, page + 1));
+  };
 
   const teamStories = useSelector((store) => store.story.dataById);
 
@@ -62,8 +76,10 @@ const TeamStory = () => {
       </SubContainer>
       {teamStories ? (
         <List
-          data={teamStories.docs}
-          keyExtractor={(item) => item.title}
+          data={teamStories}
+          keyExtractor={(item) => item._id}
+          // onEndReached={teamStories?.length >= 10 ? handleLoadMore : null}
+          // onEndReachedThreshold={0.01}
           refreshControl={
             <RefreshControl refreshing={loading} onRefresh={onRefresh} />
           }

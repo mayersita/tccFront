@@ -97,7 +97,6 @@ function* createStory(action) {
       team: teamId,
     });
     yield put(StoryActions.createStorySuccess());
-    back();
   } catch (err) {
     yield put(StoryActions.createStoryFailure(err));
   }
@@ -116,8 +115,10 @@ function* deleteStory(action) {
 
 function* getMyStories(action) {
   try {
-    const { userId } = action.payload;
-    const response = yield call(api.post, '/stories/user', { user: userId });
+    const { userId, page } = action.payload;
+    const response = yield call(api.post, `/stories/user?page=${page}`, {
+      user: userId,
+    });
     yield put(StoryActions.myStoriesSuccess(response.data));
   } catch (err) {
     yield put(StoryActions.myStoriesFailure(err));
@@ -127,7 +128,9 @@ function* getMyStories(action) {
 function* getTeamIdByUser(action) {
   try {
     const { userId } = action.payload;
-    const response = yield call(api.post, `/teams/byUser`, { id: userId });
+    const response = yield call(api.post, `/teams/byUser`, {
+      id: userId,
+    });
     yield put(TeamsActions.teamByUserSuccess(response.data[0]));
   } catch (err) {
     yield put(TeamsActions.teamByUserFailure(err));
@@ -136,8 +139,11 @@ function* getTeamIdByUser(action) {
 
 function* getStoriesByTeamId(action) {
   try {
-    const { teamId } = action.payload;
-    const response = yield call(api.get, `/stories/team/${teamId}`);
+    const { teamId, page } = action.payload;
+    const response = yield call(
+      api.get,
+      `/stories/team/${teamId}?page=${page}`
+    );
     yield put(StoryActions.requestStoryByIdSuccess(response.data));
   } catch (err) {
     yield put(StoryActions.requestStoryByIdFailure(err));
@@ -159,8 +165,11 @@ function* commentOnStory(action) {
 
 function* getCommentsFromStory(action) {
   try {
-    const { storyId } = action.payload;
-    const response = yield call(api.post, `comments/story/${storyId}`);
+    const { storyId, page } = action.payload;
+    const response = yield call(
+      api.post,
+      `comments/story/${storyId}?page=${page}`
+    );
     yield put(CommentsActions.getCommentsSuccess(response.data));
   } catch (err) {
     yield put(CommentsActions.getCommentsFailure(err));

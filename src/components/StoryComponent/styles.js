@@ -2,12 +2,13 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  min-height: 90%;
+  min-height: 40px;
   background-color: #fff;
   border-color: #651296;
   border-width: 1px;
   margin-bottom: 5%;
-  margin: 10px 5px 10px 5px;
+  elevation: 5;
+  margin: 10px;
 `;
 
 export const SubContainer = styled.View`

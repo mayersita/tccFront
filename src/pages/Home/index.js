@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { View, StatusBar, RefreshControl } from 'react-native';
+import { View, StatusBar, RefreshControl, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HeaderComponent from '../../components/Header';
 import StoryComponent from '../../components/StoryComponent';
@@ -23,20 +23,34 @@ const Home = ({ navigation }) => {
   const error = useSelector((store) => store.story.error);
   const myStories = useSelector((store) => store.story.data);
   const userId = useSelector((store) => store.auth.data._id);
+  let page = 1;
 
   const onRefresh = () => {
-    dispatch(StoryActions.myStoriesRequest(userId));
+    dispatch(StoryActions.myStoriesRequest(userId, page));
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('willFocus', () => {
+      dispatch(StoryActions.myStoriesRequest(userId, page));
+    });
+    return () => {
+      unsubscribe.remove();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     let loaded = true;
     if (loaded) {
-      dispatch(StoryActions.myStoriesRequest(userId));
+      dispatch(StoryActions.myStoriesRequest(userId, page));
     }
     return () => {
       loaded = false;
     };
   }, []);
+
+  const handleLoadMore = () => {
+    dispatch(StoryActions.myStoriesRequest(userId, page + 1));
+  };
 
   return (
     <Container>
@@ -47,14 +61,20 @@ const Home = ({ navigation }) => {
           <TitleText>Suas histórias</TitleText>
         </TitleView>
       </SubContainer>
-      <List
-        data={myStories.docs}
-        keyExtractor={(item) => item.title}
-        refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={onRefresh} />
-        }
-        renderItem={({ item }) => <StoryComponent story={item} />}
-      />
+      {myStories ? (
+        <List
+          data={myStories}
+          keyExtractor={(item) => item._id}
+          // onEndReached={myStories?.length >= 10 ? handleLoadMore : null}
+          // onEndReachedThreshold={0.01}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+          }
+          renderItem={({ item }) => <StoryComponent story={item} />}
+        />
+      ) : (
+        <Text>Não há histórias escritas ainda!</Text>
+      )}
       <FloatingAddButton
         onPress={() => {
           navigate('NewStory');

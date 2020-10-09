@@ -27,5 +27,6 @@ export const List = styled.FlatList``;
 export const FloatingAddButton = styled.TouchableOpacity`
   align-self: center;
   position: absolute;
+  elevation: 10;
   bottom: 0%;
 `;

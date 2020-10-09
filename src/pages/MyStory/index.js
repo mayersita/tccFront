@@ -37,6 +37,16 @@ const MyStory = ({ navigation }) => {
   const onRefresh = () => {
     dispatch(CommentsActions.getComments(story._id));
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('willFocus', () => {
+      dispatch(CommentsActions.getComments(story._id));
+    });
+    return () => {
+      unsubscribe.remove();
+    };
+  }, [navigation]);
+
   useEffect(() => {
     let loaded = true;
     if (loaded) {
@@ -46,6 +56,7 @@ const MyStory = ({ navigation }) => {
       loaded = false;
     };
   }, []);
+
   const commentsfromStory = useSelector((store) => store.comments.dataComments);
 
   function deleteStory(storyId) {
@@ -90,7 +101,7 @@ const MyStory = ({ navigation }) => {
         <TextComments>Comentários:</TextComments>
       </CommentTitleView>
       <List
-        data={commentsfromStory.docs}
+        data={commentsfromStory}
         keyExtractor={(item) => item.title}
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={onRefresh} />

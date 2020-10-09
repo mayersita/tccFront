@@ -1,6 +1,8 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Alert } from 'react-native';
 import { navigate } from '../../services/navigation';
+import { Creators as StoryActions } from '../../store/ducks/story';
+import { useDispatch } from 'react-redux';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import {
@@ -16,13 +18,32 @@ import {
 } from './styles';
 
 const StoryComponent = ({ story, fromTeam = false }) => {
+  const dispatch = useDispatch();
+  function deleteStory(storyId) {
+    Alert.alert(
+      'Tem certeza que deseja excluir?',
+      '',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            dispatch(StoryActions.deleteStory(storyId));
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  }
+
   return (
     <Container>
       <TitleView>
         <TitleText>{story.title}</TitleText>
-        <TouchableOpacity>
-          <MaterialIcons name="edit" size={25} color="#7D7D7D" />
-        </TouchableOpacity>
       </TitleView>
       <SubContainer>
         <Line>
@@ -36,7 +57,7 @@ const StoryComponent = ({ story, fromTeam = false }) => {
               <TextErase>Autor: {story.author.name}</TextErase>
             </TextLink>
           ) : (
-            <TextLink>
+            <TextLink onPress={() => deleteStory(story._id)}>
               <TextErase>Apagar</TextErase>
             </TextLink>
           )}

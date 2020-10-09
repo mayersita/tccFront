@@ -20,7 +20,7 @@ const Drawer = () => {
             navigate('Home');
           }}
         >
-          <MaterialCommunityIcons name="home" size={20} color="#08AE9E" />
+          <MaterialCommunityIcons name="home" size={25} color="#08AE9E" />
           <Text>Home</Text>
         </Item>
 
@@ -31,10 +31,10 @@ const Drawer = () => {
         >
           <MaterialCommunityIcons
             name="plus-circle"
-            size={20}
+            size={25}
             color="#08AE9E"
           />
-          <Text>Escrever hitória</Text>
+          <Text>Escrever história</Text>
         </Item>
         <Item
           onPress={() => {
@@ -43,14 +43,14 @@ const Drawer = () => {
         >
           <MaterialCommunityIcons
             name="account-group"
-            size={20}
+            size={25}
             color="#08AE9E"
           />
           <Text>Equipe</Text>
         </Item>
       </ScrollView>
       <Item>
-        <FontAwesome name="question-circle" size={20} color="#08AE9E" />
+        <FontAwesome name="question-circle" size={25} color="#08AE9E" />
         <Text>Ajuda</Text>
       </Item>
       <Item
@@ -60,7 +60,7 @@ const Drawer = () => {
       >
         <MaterialCommunityIcons
           name="logout-variant"
-          size={20}
+          size={25}
           color="#08AE9E"
         />
         <Text>Sair</Text>

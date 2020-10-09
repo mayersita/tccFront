@@ -32,6 +32,7 @@ const INITIAL_STATE = {
   description: null,
   teamId: null,
   storyId: null,
+  page: 1,
   data: [],
   dataById: [],
   loading: false,
@@ -70,6 +71,7 @@ export default function story(state = INITIAL_STATE, action) {
       return {
         ...state,
         userId: action.payload.userId,
+        page: action.payload.page,
         error: false,
         success: false,
         loading: true,
@@ -77,7 +79,10 @@ export default function story(state = INITIAL_STATE, action) {
     case Types.MY_STORIES_REQUEST_SUCCESS:
       return {
         ...state,
-        data: action.payload.data,
+        data:
+          state.page === 1
+            ? action.payload.data.docs
+            : state.data.concat(action.payload.data.docs),
         success: true,
         loading: false,
         error: false,
@@ -93,6 +98,7 @@ export default function story(state = INITIAL_STATE, action) {
       return {
         ...state,
         teamId: action.payload.teamId,
+        page: action.payload.page,
         error: false,
         success: false,
         loading: true,
@@ -100,7 +106,10 @@ export default function story(state = INITIAL_STATE, action) {
     case Types.STORIES_REQUEST_BYID_SUCCESS:
       return {
         ...state,
-        dataById: action.payload.dataById,
+        dataById:
+          state.page === 1
+            ? action.payload.dataById.docs
+            : state.dataById.concat(action.payload.dataById.docs),
         success: true,
         loading: false,
         error: false,
@@ -181,9 +190,9 @@ export const Creators = {
     type: Types.CREATE_STORY_FAILURE,
   }),
 
-  myStoriesRequest: (userId) => ({
+  myStoriesRequest: (userId, page) => ({
     type: Types.MY_STORIES_REQUEST,
-    payload: { userId },
+    payload: { userId, page },
   }),
 
   myStoriesSuccess: (data) => ({
@@ -195,9 +204,9 @@ export const Creators = {
     type: Types.MY_STORIES_REQUEST_FAILURE,
   }),
 
-  requestStoryById: (teamId) => ({
+  requestStoryById: (teamId, page) => ({
     type: Types.STORIES_REQUEST_BYID,
-    payload: { teamId },
+    payload: { teamId, page },
   }),
 
   requestStoryByIdSuccess: (dataById) => ({

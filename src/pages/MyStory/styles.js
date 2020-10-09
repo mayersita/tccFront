@@ -25,6 +25,7 @@ export const TitleText = styled.Text`
 export const List = styled.FlatList``;
 
 export const Scrollable = styled.ScrollView`
+  min-height: 35%;
   padding: 10px;
   margin-left: 15px;
   margin-right: 15px;
