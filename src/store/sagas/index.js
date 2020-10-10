@@ -36,9 +36,8 @@ function* signin(action) {
 
     AsyncStorage.setItem('token', response.data.token);
     yield put(AuthActions.saveToken(response.data.token));
-    navigate('DrawerComponent');
-
     yield put(AuthActions.authSuccess(response.data.token, response.data.user));
+    navigate('DrawerComponent');
   } catch (err) {
     yield put(AuthActions.authFailure(err));
   }
@@ -55,9 +54,12 @@ function* signup(action) {
       password,
     };
     const response = yield call(api.post, 'users', jsonData);
-    yield put(AuthActions.signUpSuccess(response.data));
     AsyncStorage.setItem('token', response.data.token);
     yield put(AuthActions.saveToken(response.data.token));
+
+    yield put(
+      AuthActions.signUpSuccess(response.data.token, response.data.user)
+    );
     navigate('TeamRegistration');
   } catch (err) {
     yield put(AuthActions.signUpFailure(err));

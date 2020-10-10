@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import HeaderComponent from '../../components/Header';
 import { Creators as CommentsActions } from '../../store/ducks/comments';
 import { FontAwesome } from '@expo/vector-icons';
+import { Snackbar } from 'react-native-paper';
 import {
   Container,
   SubContainer,
@@ -29,6 +30,7 @@ import {
   SubText,
   Inputcontainer,
   InputComment,
+  ListContainer,
 } from './styles';
 
 const StoryDetails = ({ navigation }) => {
@@ -40,6 +42,16 @@ const StoryDetails = ({ navigation }) => {
   const success = useSelector((store) => store.comments.success);
   const error = useSelector((store) => store.comments.error);
   let page = 1;
+
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (error) setVisible(true);
+  }, [error]);
+
+  const onDismissSnackBar = () => {
+    setVisible(false);
+  };
 
   const onRefresh = () => {
     dispatch(CommentsActions.getComments(story._id, page));
@@ -73,63 +85,78 @@ const StoryDetails = ({ navigation }) => {
   }
 
   const handleLoadMore = () => {
-    dispatch(CommentsActions.getComments(story._id, page + 1));
+    let nextPage = page + 1;
+    dispatch(CommentsActions.getComments(story._id, nextPage));
   };
 
   return (
-    <Container>
-      <StatusBar barStyle="light-content" backgroundColor="#651296" />
-      <HeaderComponent />
-      <SubContainer>
-        <TitleView>
-          <TitleText>{story.title}</TitleText>
-          <SubText>
-            Autor: {fromTeam ? story.author.name : story.author}
-          </SubText>
-        </TitleView>
-      </SubContainer>
-      <Scrollable>
-        <StoryText>{story.description}</StoryText>
-      </Scrollable>
-      <CommentTitleView>
-        <MaterialIcons name="chat" size={25} color="#2FCC76" />
-        <TextComments>Comentários:</TextComments>
-      </CommentTitleView>
-      {commentsfromStory ? (
-        <List
-          data={commentsfromStory}
-          keyExtractor={(item) => item._id}
-          // onEndReached={commentsfromStory?.length >= 10 ? handleLoadMore : null}
-          // onEndReachedThreshold={0.01}
-          refreshControl={
-            <RefreshControl refreshing={loading} onRefresh={onRefresh} />
-          }
-          renderItem={({ item }) => (
-            <CommentView>
-              <UserProfile>
-                <FontAwesome name="user-circle" size={25} color="#7D7D7D" />
-                <UserInfo>{item.user.name}:</UserInfo>
-              </UserProfile>
-              <CommentText>{item.description}</CommentText>
-            </CommentView>
+    <>
+      <Container>
+        <StatusBar barStyle="light-content" backgroundColor="#651296" />
+        <HeaderComponent />
+        <SubContainer>
+          <TitleView>
+            <TitleText>{story.title}</TitleText>
+            <SubText>
+              Autor: {fromTeam ? story.author.name : story.author}
+            </SubText>
+          </TitleView>
+        </SubContainer>
+        <Scrollable>
+          <StoryText>{story.description}</StoryText>
+        </Scrollable>
+        <CommentTitleView>
+          <MaterialIcons name="chat" size={25} color="#2FCC76" />
+          <TextComments>Comentários:</TextComments>
+        </CommentTitleView>
+        <ListContainer>
+          {commentsfromStory ? (
+            <List
+              data={commentsfromStory}
+              keyExtractor={(item) => item._id}
+              onEndReached={
+                commentsfromStory?.length >= 10 ? handleLoadMore : null
+              }
+              onEndReachedThreshold={0.1}
+              refreshControl={
+                <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+              }
+              renderItem={({ item }) => (
+                <CommentView>
+                  <UserProfile>
+                    <FontAwesome name="user-circle" size={25} color="#7D7D7D" />
+                    <UserInfo>{item.user.name}:</UserInfo>
+                  </UserProfile>
+                  <CommentText>{item.description}</CommentText>
+                </CommentView>
+              )}
+            />
+          ) : (
+            <Text>Ninguém comentou nessa história ainda...</Text>
           )}
-        />
-      ) : (
-        <Text>Ninguém comentou nessa história ainda...</Text>
-      )}
-      <Inputcontainer>
-        <InputComment
-          placeholder="Escreva um comentário..."
-          value={comment}
-          autoCorrect={true}
-          onChangeText={(text) => setComment(text)}
-          returnKeyType="send"
-        />
-        <TouchableOpacity onPress={writeComment}>
-          <MaterialIcons name="send" size={24} color="#2FCC76" />
-        </TouchableOpacity>
-      </Inputcontainer>
-    </Container>
+        </ListContainer>
+        <Inputcontainer>
+          <InputComment
+            placeholder="Escreva um comentário..."
+            value={comment}
+            autoCorrect={true}
+            onChangeText={(text) => setComment(text)}
+            returnKeyType="send"
+          />
+          <TouchableOpacity onPress={writeComment}>
+            <MaterialIcons name="send" size={24} color="#2FCC76" />
+          </TouchableOpacity>
+        </Inputcontainer>
+      </Container>
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        duration={3000}
+        style={{ backgroundColor: '#A30D0B' }}
+      >
+        Erro ao carregar comentários!
+      </Snackbar>
+    </>
   );
 };
 

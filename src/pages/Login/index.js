@@ -3,6 +3,7 @@ import { Dimensions, Image, StatusBar, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as AuthActions } from '../../store/ducks/auth';
+import { Snackbar } from 'react-native-paper';
 import {
   Container,
   LoginContainer,
@@ -22,13 +23,26 @@ const Login = ({ navigation }) => {
   const success = useSelector((store) => store.auth.success);
   const error = useSelector((store) => store.auth.error);
 
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
-    if (error == true) Alert.alert('Ocorreu um erro ao logar!');
+    dispatch(AuthActions.clearStatus());
+  }, []);
+
+  useEffect(() => {
+    if (error) setVisible(true);
   }, [error]);
+
+  const onDismissSnackBar = () => {
+    setVisible(false);
+  };
+
   function createAccount() {
     navigation.navigate('SignUp');
   }
-  function forgotPass() {}
+  function forgotPass() {
+    Alert.alert('Ops!', 'Esta funcionalidade está em desenvolvimento!');
+  }
 
   function login() {
     dispatch(AuthActions.authRequest(email, password));
@@ -80,6 +94,14 @@ const Login = ({ navigation }) => {
           <SignUpLinkText>Criar conta</SignUpLinkText>
         </SignUpLink>
       </Container>
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        duration={3000}
+        style={{ backgroundColor: '#A30D0B' }}
+      >
+        Ocorreu um erro ao tentar logar!
+      </Snackbar>
     </>
   );
 };

@@ -7,12 +7,14 @@ export const Types = {
   CREATE_TEAM_FAILURE: 'CREATE_TEAM_FAILURE',
 
   JOIN_TEAM_REQUEST: 'JOIN_TEAM_REQUEST',
-  JOIN_TEAM_REQUEST_SUCCESS: 'JOIN_TEAM_REQUEST_SUCCESS',
-  JOIN_TEAM_REQUEST_FAILURE: 'JOIN_TEAM_REQUEST_FAILURE',
+  JOIN_TEAM_SUCCESS: 'JOIN_TEAM_SUCCESS',
+  JOIN_TEAM_FAILURE: 'JOIN_TEAM_FAILURE',
 
   REQUEST_TEAM_BYUSER: 'REQUEST_TEAM_BYUSER',
   REQUEST_TEAM_BYUSER_SUCCESS: 'REQUEST_TEAM_BYUSER_SUCCESS',
   REQUEST_TEAM_BYUSER_FAILURE: 'REQUEST_TEAM_BYUSER_FAILURE',
+
+  CLEAR_STATUS: 'CLEAR_STATUS',
 };
 
 /*
@@ -25,7 +27,11 @@ const INITIAL_STATE = {
   code: null,
   loading: false,
   success: false,
+  successCreation: false,
+  successJoin: false,
   error: false,
+  errorCreation: false,
+  errorJoin: false,
 };
 
 export default function teams(state = INITIAL_STATE, action) {
@@ -35,46 +41,46 @@ export default function teams(state = INITIAL_STATE, action) {
         ...state,
         name: action.payload.name,
         code: action.payload.code,
-        success: false,
+        successCreation: false,
         loading: true,
-        error: false,
+        errorCreation: false,
       };
     case Types.CREATE_TEAM_SUCCESS:
       return {
         ...state,
-        success: true,
+        successCreation: true,
         loading: false,
-        error: false,
+        errorCreation: false,
       };
     case Types.CREATE_TEAM_FAILURE:
       return {
         ...state,
-        error: true,
+        errorCreation: true,
         loading: false,
-        success: false,
+        successCreation: false,
       };
 
     case Types.JOIN_TEAM_REQUEST:
       return {
         ...state,
         code: action.payload.code,
-        error: false,
-        success: false,
+        errorJoin: false,
+        successJoin: false,
         loading: true,
       };
     case Types.JOIN_TEAM_SUCCESS:
       return {
         ...state,
-        success: true,
+        successJoin: true,
         loading: false,
-        error: false,
+        errorJoin: false,
       };
     case Types.JOIN_TEAM_FAILURE:
       return {
         ...state,
         loading: false,
-        success: false,
-        error: true,
+        successJoin: false,
+        errorJoin: true,
       };
 
     case Types.REQUEST_TEAM_BYUSER:
@@ -99,6 +105,17 @@ export default function teams(state = INITIAL_STATE, action) {
         error: true,
         loading: false,
         success: false,
+      };
+    case Types.CLEAR_STATUS:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        successCreation: false,
+        successJoin: false,
+        error: false,
+        errorCreation: false,
+        errorJoin: false,
       };
     default:
       return state;
@@ -148,5 +165,9 @@ export const Creators = {
 
   teamByUserFailure: () => ({
     type: Types.REQUEST_TEAM_BYUSER_FAILURE,
+  }),
+
+  clearStatus: () => ({
+    type: Types.CLEAR_STATUS,
   }),
 };

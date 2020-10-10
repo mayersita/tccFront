@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, Image, TouchableOpacity } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { navigate } from '../../services/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as TeamsActions } from '../../store/ducks/teams';
-import { ActivityIndicator, Snackbar } from 'react-native-paper';
+import { Snackbar } from 'react-native-paper';
 
 import {
   Container,
@@ -27,14 +32,20 @@ import {
 
 const TeamRegistration = () => {
   const [option, setOption] = useState(null);
-  const [visible, setVisible] = useState(false);
-  const [snackBarMessage, setSnackbarMessage] = useState('');
   const [code, setCode] = useState('');
   const [teamName, setTeamName] = useState('');
   const dispatch = useDispatch();
   const loading = useSelector((store) => store.teams.loading);
-  const success = useSelector((store) => store.teams.success);
-  const error = useSelector((store) => store.teams.error);
+  const successJoin = useSelector((store) => store.teams.successJoin);
+  const successCreation = useSelector((store) => store.teams.successCreation);
+  const errorCreation = useSelector((store) => store.teams.errorCreation);
+  const errorJoin = useSelector((store) => store.teams.errorJoin);
+  const [snackBarMessage, setSnackbarMessage] = useState('');
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    dispatch(TeamsActions.clearStatus());
+  }, []);
 
   const createTeam = () => {
     dispatch(TeamsActions.createTeamRequest(teamName, code));
@@ -45,20 +56,30 @@ const TeamRegistration = () => {
   };
 
   useEffect(() => {
-    onToggleSnackBar();
-  }, [success, error]);
+    if (errorCreation) {
+      setSnackbarMessage('Ocorreu um erro ao criar o time!');
+      setVisible(true);
+    }
+    if (successJoin) {
+      setSnackbarMessage('Entrou pro time com sucesso!');
+      setVisible(true);
+    }
+    if (successCreation) {
+      setSnackbarMessage('Time criado com sucesso!');
+      setVisible(true);
+    }
+    if (errorJoin) {
+      setSnackbarMessage('Ocorreu um erro ao se juntar ao time!');
+      setVisible(true);
+    }
+  }, [errorCreation, errorJoin, successJoin, successCreation]);
 
-  const onToggleSnackBar = () => {
-    if (success) {
-      setVisible(!visible);
-      setSnackbarMessage('Registrado com sucesso!');
-    } else if (error) {
-      setVisible(!visible);
-      setSnackbarMessage('Ocorreu um erro!');
+  const onDismissSnackBar = () => {
+    setVisible(false);
+    if (successJoin || successCreation) {
+      navigate('Home');
     }
   };
-
-  const onDismissSnackBar = () => setVisible(false);
 
   return (
     <>
@@ -149,6 +170,11 @@ const TeamRegistration = () => {
           visible={visible}
           duration={3000}
           onDismiss={onDismissSnackBar}
+          style={
+            successJoin || successCreation
+              ? { backgroundColor: '#16522D' }
+              : { backgroundColor: '#A30D0B' }
+          }
         >
           {snackBarMessage}
         </Snackbar>

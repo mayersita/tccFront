@@ -97,11 +97,13 @@ export default function auth(state = INITIAL_STATE, action) {
     case Types.SIGNUP_REQUEST_SUCCESS:
       return {
         ...state,
+        token: action.payload.token,
         data: action.payload.data,
         successSignUp: true,
         loadingSignUp: false,
         errorSignUp: false,
         errorMessage: null,
+        signed: true,
       };
     case Types.SIGNUP_REQUEST_FAILURE:
       return {
@@ -145,11 +147,20 @@ export default function auth(state = INITIAL_STATE, action) {
     case Types.CLEAR_STATUS:
       return {
         ...state,
+        data: [],
+        name: null,
+        email: null,
+        role: null,
+        password: null,
+        signed: false,
+        token: null,
         loading: false,
         success: false,
         error: false,
+        loadingSignUp: false,
+        successSignUp: false,
         errorSignUp: false,
-        errorMessage: null,
+        errorMessage: '',
       };
     default:
       return state;
@@ -186,9 +197,9 @@ export const Creators = {
     payload: { name, email, role, password },
   }),
 
-  signUpSuccess: (data) => ({
+  signUpSuccess: (token, data) => ({
     type: Types.SIGNUP_REQUEST_SUCCESS,
-    payload: { data },
+    payload: { token, data },
   }),
 
   signUpFailure: (errorMessage) => ({

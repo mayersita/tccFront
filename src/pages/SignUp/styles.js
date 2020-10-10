@@ -3,7 +3,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView.attrs({
+  behavior: Platform.OS == 'ios' ? 'padding' : 'padding',
+})`
   flex: 1;
   padding: 50px 50px 20px 50px;
 `;

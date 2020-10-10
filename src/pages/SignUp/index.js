@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dimensions, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { navigate } from '../../services/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as AuthActions } from '../../store/ducks/auth';
+import { Snackbar } from 'react-native-paper';
 
 import {
   Container,
@@ -23,6 +24,28 @@ const SignUp = () => {
   const loading = useSelector((store) => store.auth.loadingSignUp);
   const success = useSelector((store) => store.auth.successSignUp);
   const error = useSelector((store) => store.auth.errorSignUp);
+
+  const [visible, setVisible] = useState(false);
+  const [snackMsg, setSnackMsg] = useState('');
+
+  useEffect(() => {
+    dispatch(AuthActions.clearStatus());
+  }, []);
+
+  useEffect(() => {
+    if (error) {
+      setSnackMsg('Ocorreu um erro ao cadastrar!');
+      setVisible(true);
+    }
+    if (success) {
+      setSnackMsg('Cadastrado com sucesso!');
+      setVisible(true);
+    }
+  }, [error, success]);
+
+  const onDismissSnackBar = () => {
+    setVisible(false);
+  };
 
   function goToLogin() {
     navigate('Login');
@@ -86,6 +109,18 @@ const SignUp = () => {
           <SignUpLinkText>Já tenho uma conta</SignUpLinkText>
         </SignUpLink>
       </Container>
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        duration={3000}
+        style={
+          success
+            ? { backgroundColor: '#16522D' }
+            : { backgroundColor: '#A30D0B' }
+        }
+      >
+        {snackMsg}
+      </Snackbar>
     </>
   );
 };

@@ -22,6 +22,10 @@ export const TitleText = styled.Text`
   text-align: center;
 `;
 
+export const ListContainer = styled.View`
+  flex: 1;
+  flex-wrap: wrap;
+`;
 export const List = styled.FlatList``;
 
 export const Scrollable = styled.ScrollView`

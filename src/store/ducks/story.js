@@ -37,7 +37,10 @@ const INITIAL_STATE = {
   dataById: [],
   loading: false,
   success: false,
+  successCreation: false,
+  successDelete: false,
   error: false,
+  errorDelete: false,
 };
 
 export default function story(state = INITIAL_STATE, action) {
@@ -48,14 +51,14 @@ export default function story(state = INITIAL_STATE, action) {
         title: action.payload.title,
         description: action.payload.description,
         teamId: action.payload.teamId,
-        success: false,
+        successCreation: false,
         loading: true,
         error: false,
       };
     case Types.CREATE_STORY_SUCCESS:
       return {
         ...state,
-        success: true,
+        successCreation: true,
         loading: false,
         error: false,
       };
@@ -64,7 +67,7 @@ export default function story(state = INITIAL_STATE, action) {
         ...state,
         error: true,
         loading: false,
-        success: false,
+        successCreation: false,
       };
 
     case Types.MY_STORIES_REQUEST:
@@ -149,23 +152,23 @@ export default function story(state = INITIAL_STATE, action) {
       return {
         ...state,
         storyId: action.payload.storyId,
-        error: false,
-        success: false,
+        errorDelete: false,
+        successDelete: false,
         loading: true,
       };
     case Types.DELETE_STORY_SUCCESS:
       return {
         ...state,
-        success: true,
+        successDelete: true,
         loading: false,
-        error: false,
+        errorDelete: false,
       };
     case Types.DELETE_STORY_FAILURE:
       return {
         ...state,
         loading: false,
-        success: false,
-        error: true,
+        successDelete: false,
+        errorDelete: true,
       };
     default:
       return state;
