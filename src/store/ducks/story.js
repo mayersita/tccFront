@@ -21,6 +21,8 @@ export const Types = {
   DELETE_STORY: 'DELETE_STORY',
   DELETE_STORY_SUCCESS: 'DELETE_STORY_SUCCESS',
   DELETE_STORY_FAILURE: 'DELETE_STORY_FAILURE',
+
+  STORY_CLEAR_STATUS: 'STORY_CLEAR_STATUS',
 };
 
 /*
@@ -170,6 +172,24 @@ export default function story(state = INITIAL_STATE, action) {
         successDelete: false,
         errorDelete: true,
       };
+    case Types.STORY_CLEAR_STATUS:
+      return {
+        ...state,
+        title: null,
+        userId: null,
+        description: null,
+        teamId: null,
+        storyId: null,
+        page: 1,
+        data: [],
+        dataById: [],
+        loading: false,
+        success: false,
+        successCreation: false,
+        successDelete: false,
+        error: false,
+        errorDelete: false,
+      };
     default:
       return state;
   }
@@ -246,5 +266,9 @@ export const Creators = {
 
   deleteStoryFailure: () => ({
     type: Types.DELETE_STORY_FAILURE,
+  }),
+
+  clearStory: () => ({
+    type: Types.STORY_CLEAR_STATUS,
   }),
 };

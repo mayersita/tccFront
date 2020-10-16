@@ -41,9 +41,13 @@ const StoryDetails = ({ navigation }) => {
   const loading = useSelector((store) => store.comments.loading);
   const success = useSelector((store) => store.comments.success);
   const error = useSelector((store) => store.comments.error);
-  let page = 1;
+  let page = useSelector((store) => store.comments.page);
 
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    dispatch(CommentsActions.clearComment());
+  }, []);
 
   useEffect(() => {
     if (error) setVisible(true);
@@ -54,12 +58,12 @@ const StoryDetails = ({ navigation }) => {
   };
 
   const onRefresh = () => {
-    dispatch(CommentsActions.getComments(story._id, page));
+    dispatch(CommentsActions.getComments(story._id, 1));
   };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('willFocus', () => {
-      dispatch(CommentsActions.getComments(story._id, page));
+      dispatch(CommentsActions.getComments(story._id, 1));
     });
     return () => {
       unsubscribe.remove();
@@ -69,7 +73,7 @@ const StoryDetails = ({ navigation }) => {
   useEffect(() => {
     let loaded = true;
     if (loaded) {
-      dispatch(CommentsActions.getComments(story._id, page));
+      dispatch(CommentsActions.getComments(story._id, 1));
     }
     return () => {
       loaded = false;

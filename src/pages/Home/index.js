@@ -32,6 +32,10 @@ const Home = ({ navigation }) => {
   const [snackMsg, setSnackMsg] = useState('');
 
   useEffect(() => {
+    dispatch(StoryActions.clearStory());
+  }, []);
+
+  useEffect(() => {
     if (error) {
       setSnackMsg('Erro ao carregar histórias');
       setVisible(true);

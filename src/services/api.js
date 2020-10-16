@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { getToken } from '../utils/authUtils';
 
-const baseURL = 'http://192.168.0.116:3000/api/';
+// const baseURL = 'http://192.168.0.116:3000/api/';
+const baseURL = 'https://tcc-back-userstories.herokuapp.com/api/';
 
 const api = axios.create({
   baseURL,

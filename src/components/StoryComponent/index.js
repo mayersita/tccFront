@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert } from 'react-native';
 import { navigate } from '../../services/navigation';
 import { Creators as StoryActions } from '../../store/ducks/story';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import {
@@ -19,6 +19,8 @@ import {
 
 const StoryComponent = ({ story, fromTeam = false }) => {
   const dispatch = useDispatch();
+  const userId = useSelector((store) => store.auth.data._id);
+  const isMine = userId == story.author._id;
   function deleteStory(storyId) {
     Alert.alert(
       'Tem certeza que deseja excluir?',
@@ -63,7 +65,7 @@ const StoryComponent = ({ story, fromTeam = false }) => {
           )}
           <TextLink
             onPress={() => {
-              fromTeam
+              fromTeam && !isMine
                 ? navigate('StoryDetails', { story: story, fromTeam: true })
                 : navigate('MyStory', { story: story });
             }}

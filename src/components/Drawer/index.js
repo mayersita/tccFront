@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
@@ -49,7 +49,14 @@ const Drawer = () => {
           <Text>Equipe</Text>
         </Item>
       </ScrollView>
-      <Item>
+      <Item
+        onPress={() => {
+          Alert.alert(
+            'Ocorreu um erro?',
+            'Entre em contato com: nam@ecomp.poli.br'
+          );
+        }}
+      >
         <FontAwesome name="question-circle" size={25} color="#08AE9E" />
         <Text>Ajuda</Text>
       </Item>

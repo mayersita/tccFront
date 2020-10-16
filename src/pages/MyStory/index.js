@@ -41,6 +41,10 @@ const MyStory = ({ navigation }) => {
 
   let page = useSelector((store) => store.comments.page);
 
+  useEffect(() => {
+    dispatch(CommentsActions.clearComment());
+  }, []);
+
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -59,7 +63,7 @@ const MyStory = ({ navigation }) => {
   };
 
   const onRefresh = () => {
-    dispatch(CommentsActions.getComments(story._id));
+    dispatch(CommentsActions.getComments(story._id, 1));
   };
 
   useEffect(() => {

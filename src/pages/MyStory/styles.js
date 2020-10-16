@@ -32,7 +32,7 @@ export const List = styled.FlatList`
 `;
 
 export const Scrollable = styled.ScrollView`
-  min-height: 35%;
+  max-height: 30%;
   padding: 10px;
   margin-left: 15px;
   margin-right: 15px;
@@ -101,5 +101,5 @@ export const BottomButtons = styled.View`
 `;
 
 export const Clickable = styled.TouchableOpacity`
-  padding: 20px;
+  padding: 15px 20px;
 `;

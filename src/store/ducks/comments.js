@@ -15,6 +15,8 @@ export const Types = {
   DELETE_COMMENT: 'DELETE_COMMENT',
   DELETE_COMMENT_SUCCESS: 'DELETE_COMMENT_SUCCESS',
   DELETE_COMMENT_FAILURE: 'DELETE_COMMENT_FAILURE',
+
+  COMMENTS_CLEAR_STATUS: 'COMMENTS_CLEAR_STATUS',
 };
 
 /*
@@ -84,6 +86,18 @@ export default function comments(state = INITIAL_STATE, action) {
         loading: false,
         success: false,
       };
+    case Types.COMMENTS_CLEAR_STATUS:
+      return {
+        ...state,
+        storyId: null,
+        description: null,
+        data: [],
+        page: 1,
+        dataComments: [],
+        loading: false,
+        success: false,
+        error: false,
+      };
     default:
       return state;
   }
@@ -120,5 +134,9 @@ export const Creators = {
 
   getCommentsFailure: () => ({
     type: Types.GET_COMMENT_FROM_STORY_FAILURE,
+  }),
+
+  clearComment: () => ({
+    type: Types.COMMENTS_CLEAR_STATUS,
   }),
 };

@@ -37,6 +37,10 @@ const NewStory = () => {
   const [snackMsg, setSnackMsg] = useState('');
 
   useEffect(() => {
+    dispatch(StoryActions.clearStory());
+  }, []);
+
+  useEffect(() => {
     if (error) {
       setSnackMsg('Ocorreu um erro ao criar a historia!');
       setVisible(true);

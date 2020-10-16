@@ -29,6 +29,10 @@ const TeamStory = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    dispatch(StoryActions.clearStory());
+  }, []);
+
+  useEffect(() => {
     if (error) setVisible(true);
   }, [error]);
 

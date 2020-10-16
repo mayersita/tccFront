@@ -44,7 +44,7 @@ const TeamRegistration = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    dispatch(TeamsActions.clearStatus());
+    dispatch(TeamsActions.clearStatusTeam());
   }, []);
 
   const createTeam = () => {

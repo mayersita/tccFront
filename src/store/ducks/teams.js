@@ -14,7 +14,7 @@ export const Types = {
   REQUEST_TEAM_BYUSER_SUCCESS: 'REQUEST_TEAM_BYUSER_SUCCESS',
   REQUEST_TEAM_BYUSER_FAILURE: 'REQUEST_TEAM_BYUSER_FAILURE',
 
-  CLEAR_STATUS: 'CLEAR_STATUS',
+  TEAM_CLEAR_STATUS: 'TEAM_CLEAR_STATUS',
 };
 
 /*
@@ -106,7 +106,7 @@ export default function teams(state = INITIAL_STATE, action) {
         loading: false,
         success: false,
       };
-    case Types.CLEAR_STATUS:
+    case Types.TEAM_CLEAR_STATUS:
       return {
         ...state,
         loading: false,
@@ -167,7 +167,7 @@ export const Creators = {
     type: Types.REQUEST_TEAM_BYUSER_FAILURE,
   }),
 
-  clearStatus: () => ({
-    type: Types.CLEAR_STATUS,
+  clearStatusTeam: () => ({
+    type: Types.TEAM_CLEAR_STATUS,
   }),
 };
