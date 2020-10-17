@@ -1,8 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  flex: 1;
-  height: 30%;
+  height: 140px;
   background-color: #fff;
   border-color: #651296;
   border-width: 1px;
@@ -53,7 +52,11 @@ export const Description = styled.Text`
 `;
 
 export const TextLink = styled.TouchableOpacity`
-  width: 50%;
+  width: 150px;
+  align-items: center;
+`;
+export const TextLinkView = styled.View`
+  width: 150px;
   align-items: center;
 `;
 

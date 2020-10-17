@@ -15,6 +15,7 @@ import {
   TextLink,
   TextSeeMore,
   TextErase,
+  TextLinkView
 } from './styles';
 
 const StoryComponent = ({ story, fromTeam = false }) => {
@@ -55,9 +56,9 @@ const StoryComponent = ({ story, fromTeam = false }) => {
         </Line>
         <Line>
           {fromTeam ? (
-            <TextLink>
+            <TextLinkView>
               <TextErase>Autor: {story.author.name}</TextErase>
-            </TextLink>
+            </TextLinkView>
           ) : (
             <TextLink onPress={() => deleteStory(story._id)}>
               <TextErase>Apagar</TextErase>

@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: #fff;
 `;

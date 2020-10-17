@@ -1,14 +1,21 @@
 import React from 'react';
-import { ScrollView, Alert } from 'react-native';
+import { ScrollView, Alert , View} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Creators as AuthActions } from '../../store/ducks/auth';
 
 import { Container, PerfilBar, PerfilText, Item, Text } from './styles';
 import { navigate } from '../../services/navigation';
 
 const Drawer = () => {
+  const dispatch = useDispatch();
   const profileName = useSelector((store) => store.auth.data.name) ?? 'Usuário';
+  
+  const logoutAction = () => {
+    dispatch(AuthActions.logout());
+  }
+  
   return (
     <Container>
       <PerfilBar>
@@ -49,6 +56,7 @@ const Drawer = () => {
           <Text>Equipe</Text>
         </Item>
       </ScrollView>
+      <View>
       <Item
         onPress={() => {
           Alert.alert(
@@ -60,11 +68,7 @@ const Drawer = () => {
         <FontAwesome name="question-circle" size={25} color="#08AE9E" />
         <Text>Ajuda</Text>
       </Item>
-      <Item
-        onPress={() => {
-          navigate('Login');
-        }}
-      >
+      <Item onPress={() => logoutAction()}>
         <MaterialCommunityIcons
           name="logout-variant"
           size={25}
@@ -72,6 +76,7 @@ const Drawer = () => {
         />
         <Text>Sair</Text>
       </Item>
+      </View>
     </Container>
   );
 };

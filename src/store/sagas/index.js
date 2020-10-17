@@ -68,6 +68,7 @@ function* signup(action) {
 
 function* logout() {
   yield AsyncStorage.clear();
+  navigate('Login');
 }
 
 function* createTeam(action) {

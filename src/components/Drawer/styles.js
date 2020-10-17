@@ -5,7 +5,7 @@ export const Container = styled.View`
 `;
 export const PerfilBar = styled.View`
   width: 100%;
-  height: 9%;
+  height: 10%;
   background-color: #651296;
   padding-left: 10%;
   justify-content: center;
@@ -14,6 +14,7 @@ export const PerfilText = styled.Text`
   color: #fff;
   font-family: 'roboto-bold';
   font-size: 16px;
+  padding-top: 15px;
 `;
 export const Item = styled.TouchableOpacity`
   flex-direction: row;
