@@ -15,6 +15,7 @@ import HeaderComponent from '../../components/Header';
 import { Creators as CommentsActions } from '../../store/ducks/comments';
 import { FontAwesome } from '@expo/vector-icons';
 import { Snackbar, RadioButton } from 'react-native-paper';
+import { INVEST_TYPE } from '../../pages/constants/investContants';
 import {
   Container,
   SubContainer,
@@ -39,6 +40,8 @@ import {
   TitleModal,
   Line,
   RadioDescription,
+  Criteria,
+  CriteriaWrap,
 } from './styles';
 
 const StoryDetails = ({ navigation }) => {
@@ -140,8 +143,19 @@ const StoryDetails = ({ navigation }) => {
               renderItem={({ item }) => (
                 <CommentView>
                   <UserProfile>
-                    <FontAwesome name="user-circle" size={25} color="#7D7D7D" />
-                    <UserInfo>{item.user.name}:</UserInfo>
+                    <View style={{ flexDirection: 'row' }}>
+                      <FontAwesome
+                        name="user-circle"
+                        size={25}
+                        color="#7D7D7D"
+                      />
+                      <UserInfo>{item.user.name}:</UserInfo>
+                    </View>
+                    <CriteriaWrap>
+                      <Criteria>
+                        {INVEST_TYPE[item.investCriteria].toUpperCase()}
+                      </Criteria>
+                    </CriteriaWrap>
                   </UserProfile>
                   <CommentText>{item.description}</CommentText>
                 </CommentView>

@@ -24,7 +24,6 @@ export const TitleText = styled.Text`
 
 export const ListContainer = styled.View`
   flex: 1;
-  flex-wrap: wrap;
 `;
 
 export const List = styled.FlatList`
@@ -77,6 +76,7 @@ export const UserProfile = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const UserInfo = styled.Text`
@@ -92,6 +92,7 @@ export const CommentText = styled.Text`
   font-size: 14px;
   font-family: 'roboto-regular';
   padding-left: 35px;
+  margin-top: 5px;
 `;
 
 export const BottomButtons = styled.View`
@@ -102,4 +103,20 @@ export const BottomButtons = styled.View`
 
 export const Clickable = styled.TouchableOpacity`
   padding: 15px 20px;
+`;
+
+export const CriteriaWrap = styled.View`
+  max-width: 120px;
+  border-radius: 15px;
+  background-color: #08ae9e;
+  margin-left: 35px;
+  padding: 10px;
+  align-self: flex-end;
+`;
+
+export const Criteria = styled.Text`
+  font-family: 'roboto-bold';
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
 `;

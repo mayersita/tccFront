@@ -10,6 +10,7 @@ import { Creators as StoryActions } from '../../store/ducks/story';
 import { Creators as CommentsActions } from '../../store/ducks/comments';
 import { Snackbar } from 'react-native-paper';
 import { back } from '../../services/navigation';
+import { INVEST_TYPE } from '../../pages/constants/investContants';
 import {
   Container,
   SubContainer,
@@ -27,6 +28,8 @@ import {
   BottomButtons,
   Clickable,
   ListContainer,
+  Criteria,
+  CriteriaWrap,
 } from './styles';
 
 const MyStory = ({ navigation }) => {
@@ -148,8 +151,15 @@ const MyStory = ({ navigation }) => {
             renderItem={({ item }) => (
               <CommentView>
                 <UserProfile>
-                  <FontAwesome name="user-circle" size={25} color="#7D7D7D" />
-                  <UserInfo>{item.user.name}:</UserInfo>
+                  <View style={{ flexDirection: 'row' }}>
+                    <FontAwesome name="user-circle" size={25} color="#7D7D7D" />
+                    <UserInfo>{item.user.name}:</UserInfo>
+                  </View>
+                  <CriteriaWrap>
+                    <Criteria>
+                      {INVEST_TYPE[item.investCriteria].toUpperCase()}
+                    </Criteria>
+                  </CriteriaWrap>
                 </UserProfile>
                 <CommentText>{item.description}</CommentText>
               </CommentView>
