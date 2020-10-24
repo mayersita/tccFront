@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { StatusBar } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderComponent from '../../components/Header';
 import { Creators as StoryActions } from '../../store/ducks/story';
@@ -81,14 +82,18 @@ const NewStory = () => {
         </SubContainer>
         <BottomButtons>
           <Clickable onPress={() => back()}>
-            <AntDesign name="closecircleo" size={35} color="#FC0F3B" />
+            <AntDesign name="back" size={35} color="#651296" />
           </Clickable>
           <Clickable
             onPress={() => {
               createStoryAction();
             }}
           >
-            <AntDesign name="check" size={35} color="#08AE9E" />
+            <MaterialCommunityIcons
+              name="content-save"
+              size={35}
+              color="#08AE9E"
+            />
           </Clickable>
         </BottomButtons>
         <ContView>
