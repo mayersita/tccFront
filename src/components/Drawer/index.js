@@ -55,6 +55,18 @@ const Drawer = () => {
           />
           <Text>Equipe</Text>
         </Item>
+        <Item
+          onPress={() => {
+            navigate('Invest');
+          }}
+        >
+          <MaterialCommunityIcons
+            name="book"
+            size={25}
+            color="#08AE9E"
+          />
+          <Text>INVEST</Text>
+        </Item>
       </ScrollView>
       <View>
       <Item

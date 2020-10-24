@@ -16,7 +16,7 @@ const HeaderComponent = () => {
         </MenuArea>
       }
       rightComponent={
-        <Profile onPress={() => navigate('Profile')}>
+        <Profile onPress={() => {}}>
           <User>{profileName}</User>
           <FontAwesome name="user-circle" size={30} color="white" />
         </Profile>

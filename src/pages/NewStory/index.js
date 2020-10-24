@@ -60,6 +60,7 @@ const NewStory = () => {
 
   const onDismissSnackBar = () => {
     setVisible(false);
+    if (success) back();
   };
 
   const createStoryAction = () => {
@@ -78,6 +79,18 @@ const NewStory = () => {
             <TitleText>Nova história</TitleText>
           </TitleView>
         </SubContainer>
+        <BottomButtons>
+          <Clickable onPress={() => back()}>
+            <AntDesign name="closecircleo" size={35} color="#FC0F3B" />
+          </Clickable>
+          <Clickable
+            onPress={() => {
+              createStoryAction();
+            }}
+          >
+            <AntDesign name="check" size={35} color="#08AE9E" />
+          </Clickable>
+        </BottomButtons>
         <ContView>
           <TitleStory>Título:</TitleStory>
           <Space />
@@ -100,18 +113,6 @@ const NewStory = () => {
           </DescField>
         </ContView>
         <Space />
-        <BottomButtons>
-          <Clickable onPress={() => back()}>
-            <AntDesign name="closecircleo" size={35} color="#FC0F3B" />
-          </Clickable>
-          <Clickable
-            onPress={() => {
-              createStoryAction();
-            }}
-          >
-            <AntDesign name="check" size={35} color="#08AE9E" />
-          </Clickable>
-        </BottomButtons>
       </Container>
       <Snackbar
         visible={visible}

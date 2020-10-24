@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import TeamStory from './pages/TeamStory';
 import StoryDetails from './pages/StoryDetails';
 import TeamRegistration from './pages/TeamRegistration';
+import Invest from './pages/Invest';
 
 const AppMain = createStackNavigator(
   {
@@ -22,6 +23,7 @@ const AppMain = createStackNavigator(
     TeamStory,
     StoryDetails,
     TeamRegistration,
+    Invest,
   },
   {
     headerMode: 'none',
