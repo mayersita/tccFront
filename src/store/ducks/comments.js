@@ -28,6 +28,7 @@ const INITIAL_STATE = {
   data: [],
   page: 1,
   dataComments: [],
+  investCriteria: null,
   loading: false,
   success: false,
   error: false,
@@ -40,6 +41,7 @@ export default function comments(state = INITIAL_STATE, action) {
         ...state,
         storyId: action.payload.storyId,
         description: action.payload.description,
+        investCriteria: action.payload.investCriteria,
         success: false,
         loading: true,
         error: false,
@@ -91,6 +93,7 @@ export default function comments(state = INITIAL_STATE, action) {
         ...state,
         storyId: null,
         description: null,
+        investCriteria: null,
         data: [],
         page: 1,
         dataComments: [],
@@ -108,9 +111,9 @@ export default function comments(state = INITIAL_STATE, action) {
  */
 
 export const Creators = {
-  createComment: (storyId, description) => ({
+  createComment: (storyId, description, investCriteria) => ({
     type: Types.CREATE_COMMENT_REQUEST,
-    payload: { storyId, description },
+    payload: { storyId, description, investCriteria },
   }),
 
   createCommentSuccess: (data) => ({

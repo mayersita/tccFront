@@ -155,10 +155,11 @@ function* getStoriesByTeamId(action) {
 
 function* commentOnStory(action) {
   try {
-    const { storyId, description } = action.payload;
+    const { storyId, description, investCriteria } = action.payload;
     const response = yield call(api.post, `comments`, {
       story: storyId,
       description: description,
+      investCriteria: investCriteria,
     });
     yield put(CommentsActions.createCommentSuccess(response.data));
   } catch (err) {

@@ -111,13 +111,13 @@ export const SubText = styled.Text`
 export const Inputcontainer = styled.View`
   padding: 5px;
   height: 45px;
-  background-color: #efefef;
+  background-color: #fff;
   border-radius: 4px;
   flex-direction: row;
   align-items: center;
   margin-left: 15px;
   margin-right: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 `;
 export const InputComment = styled.TextInput.attrs({
   placeholderTextcolor: '#808080',
@@ -128,4 +128,47 @@ export const InputComment = styled.TextInput.attrs({
   margin-left: 10px;
   font-family: 'roboto-regular';
   color: #434343;
+`;
+
+export const LinkTo = styled.TouchableOpacity`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-self: center;
+  justify-content: center;
+  width: 150px;
+  height: 40px;
+  border-radius: 15px;
+  background-color: #08ae9e;
+`;
+
+export const TextLink = styled.Text`
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+`;
+
+export const ModalContainer = styled.View`
+  flex: 1;
+  background-color: #cbf5f1;
+  /* margin-top: 250px; */
+  padding: 10px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  elevation: 5;
+`;
+export const TitleModal = styled.Text`
+  font-family: 'roboto-bold';
+  color: #434343;
+  font-size: 14px;
+  text-align: center;
+  padding: 15px;
+`;
+
+export const Line = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const RadioDescription = styled.Text`
+  font-family: 'roboto-regular';
 `;
