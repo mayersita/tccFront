@@ -215,7 +215,7 @@ const StoryDetails = ({ navigation }) => {
                   status={checked === 'i' ? 'checked' : 'unchecked'}
                   onPress={() => setChecked('i')}
                 />
-                <RadioDescription>(I)ndependent</RadioDescription>
+                <RadioDescription>Independente</RadioDescription>
               </Line>
               <Line>
                 <RadioButton
@@ -223,7 +223,7 @@ const StoryDetails = ({ navigation }) => {
                   status={checked === 'n' ? 'checked' : 'unchecked'}
                   onPress={() => setChecked('n')}
                 />
-                <RadioDescription>(N)egotiable</RadioDescription>
+                <RadioDescription>Negociável</RadioDescription>
               </Line>
               <Line>
                 <RadioButton
@@ -231,7 +231,7 @@ const StoryDetails = ({ navigation }) => {
                   status={checked === 'v' ? 'checked' : 'unchecked'}
                   onPress={() => setChecked('v')}
                 />
-                <RadioDescription>(V)aluable</RadioDescription>
+                <RadioDescription>Agrega Valor</RadioDescription>
               </Line>
             </View>
             <View style={{ width: '50%' }}>
@@ -241,7 +241,7 @@ const StoryDetails = ({ navigation }) => {
                   status={checked === 'e' ? 'checked' : 'unchecked'}
                   onPress={() => setChecked('e')}
                 />
-                <RadioDescription>(E)stimable</RadioDescription>
+                <RadioDescription>Estimável</RadioDescription>
               </Line>
               <Line>
                 <RadioButton
@@ -249,7 +249,7 @@ const StoryDetails = ({ navigation }) => {
                   status={checked === 's' ? 'checked' : 'unchecked'}
                   onPress={() => setChecked('s')}
                 />
-                <RadioDescription>(S)mall</RadioDescription>
+                <RadioDescription>Pequena</RadioDescription>
               </Line>
               <Line>
                 <RadioButton
@@ -257,7 +257,7 @@ const StoryDetails = ({ navigation }) => {
                   status={checked === 't' ? 'checked' : 'unchecked'}
                   onPress={() => setChecked('t')}
                 />
-                <RadioDescription>(T)estable</RadioDescription>
+                <RadioDescription>Testável</RadioDescription>
               </Line>
             </View>
           </View>

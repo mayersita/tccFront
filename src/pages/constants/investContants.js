@@ -1,8 +1,8 @@
 export const INVEST_TYPE = {
-  i: 'Independent',
-  n: 'Negotiable',
-  v: 'Valuable',
-  e: 'Estimable',
-  s: 'Small',
-  t: 'Testable',
+  i: 'Independente',
+  n: 'Negociável',
+  v: 'Agrega Valor',
+  e: 'Estimável',
+  s: 'Pequena',
+  t: 'Testável',
 };
