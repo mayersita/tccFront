@@ -1,7 +1,7 @@
 {
   "expo": {
    "name": "US Validation",
-   "icon": "./src/assets/logo.png",
+   "icon": "./src/assets/logoAppNew.png",
    "version": "1.0.0",
    "slug": "user-stories",
    "ios": {

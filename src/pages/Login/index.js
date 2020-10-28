@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, Image, StatusBar, Alert } from 'react-native';
+import { Dimensions, Image, StatusBar, Alert, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as AuthActions } from '../../store/ducks/auth';
@@ -64,9 +64,10 @@ const Login = ({ navigation }) => {
         <StatusBar barStyle="light-content" backgroundColor="#651296" />
         <LoginContainer>
           <Image
-            source={require('../../assets/logo.png')}
+            source={require('../../assets/logoNew-2-2.png')}
             resizeMethod={'resize'}
           />
+          <View style={{height: 50}}/>
           <TextInput
             placeholder="Login"
             value={email}
