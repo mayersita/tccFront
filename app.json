@@ -1,17 +1,16 @@
 {
-  "name": "TccProject",
-  "displayName": "TccProject",
   "expo": {
-    "name": "TccProject",
-    "slug": "TccProject",
-    "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+   "name": "US Validation",
+   "icon": "./src/assets/logoAppNew-2.png",
+   "version": "1.0.0",
+   "slug": "user-stories",
+   "ios": {
+     "bundleIdentifier": "com.tccproject",
+     "buildNumber": "1.0.0"
+   },
+   "android": {
+     "package": "com.tccproject",
+     "versionCode": 1
+   }
   }
 }
